@@ -1,0 +1,27 @@
+# Code owners for mypropper/skills
+#
+# Every pull request here changes what an agent will do on a user's behalf, so
+# everything has an owner. Later matches win, so the more specific rules are last.
+#
+# Teams listed must have write access to this repository, or GitHub ignores the rule.
+
+*                                           @mypropper/opensource-maintainers
+
+# Published skills — these ship in the plugin and run against real agreements.
+/skills/                                    @mypropper/opensource-maintainers @mypropper/engineering
+
+# Agreement templates become documents people sign.
+/skills/agreement-starter-pack/templates/   @mypropper/opensource-maintainers
+
+# Plugin identity and distribution. The plugin slug is immutable once published.
+/.claude-plugin/                            @mypropper/opensource-maintainers
+
+# Repo-wide agent rules, contributor guidance and CI.
+/.agents/                                   @mypropper/opensource-maintainers
+/scripts/                                   @mypropper/opensource-maintainers
+/.github/                                   @mypropper/opensource-maintainers
+
+# Community health, licensing and policy.
+/SECURITY.md                                @mypropper/opensource-maintainers
+/CODE_OF_CONDUCT.md                         @mypropper/opensource-maintainers
+/LICENSE                                    @mypropper/opensource-maintainers
