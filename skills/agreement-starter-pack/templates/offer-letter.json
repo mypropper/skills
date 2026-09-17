@@ -1,0 +1,168 @@
+{
+  "genTemplate": {
+    "name": "Employment Offer Letter",
+    "description": "At-will employment offer stating role, compensation, start date and conditions.",
+    "templateType": "letter",
+    "generationKind": "HTML_MDX",
+    "cssStyles": "body{font-family:Georgia,'Times New Roman',serif;font-size:11pt;line-height:1.5;color:#111}\nh1{font-size:15pt;text-align:center;text-transform:uppercase;letter-spacing:.04em;margin-bottom:1.5em}\nh2{font-size:11pt;text-transform:uppercase;letter-spacing:.03em;margin-top:1.6em;margin-bottom:.4em}\np{margin:.6em 0}\nol{margin:.4em 0 .4em 1.2em}\ntable.signature-blocks{width:100%;margin-top:2em;border-collapse:collapse}\ntable.signature-blocks td{width:50%;vertical-align:top;padding-right:2em}\np.party{font-weight:bold;text-transform:uppercase;margin-bottom:1.6em}\n.notice{margin-top:2em;font-size:9pt;color:#555}",
+    "dataSchema": {
+      "type": "object",
+      "properties": {
+        "effectiveDate": {
+          "type": "string",
+          "description": "Date the letter is issued.",
+          "format": "date"
+        },
+        "governingLaw": {
+          "type": "string",
+          "description": "Governing law jurisdiction."
+        },
+        "partyA": {
+          "type": "object",
+          "description": "The employer.",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Employer legal name."
+            },
+            "entityType": {
+              "type": "string",
+              "description": "Entity form."
+            },
+            "address": {
+              "type": "string",
+              "description": "Employer address."
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "partyB": {
+          "type": "object",
+          "description": "The candidate.",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Candidate full name."
+            },
+            "entityType": {
+              "type": "string",
+              "description": "Leave blank for an individual."
+            },
+            "address": {
+              "type": "string",
+              "description": "Candidate address."
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "jobTitle": {
+          "type": "string",
+          "description": "Position title."
+        },
+        "manager": {
+          "type": "string",
+          "description": "Reporting manager name and title."
+        },
+        "startDate": {
+          "type": "string",
+          "description": "First day of employment.",
+          "format": "date"
+        },
+        "salary": {
+          "type": "string",
+          "description": "Annual base salary, e.g. $145,000."
+        },
+        "payPeriod": {
+          "type": "string",
+          "description": "Pay frequency, e.g. semi-monthly."
+        },
+        "bonus": {
+          "type": "string",
+          "description": "Bonus or variable compensation terms, if any."
+        },
+        "equity": {
+          "type": "string",
+          "description": "Equity grant terms, if any, subject to board approval."
+        },
+        "benefits": {
+          "type": "string",
+          "description": "Summary of benefits eligibility."
+        },
+        "ptoDays": {
+          "type": "integer",
+          "description": "Annual paid time off days."
+        },
+        "location": {
+          "type": "string",
+          "description": "Work location or remote arrangement."
+        },
+        "offerExpiry": {
+          "type": "string",
+          "description": "Date the offer lapses if unsigned.",
+          "format": "date"
+        }
+      },
+      "required": [
+        "effectiveDate",
+        "partyA",
+        "partyB",
+        "jobTitle",
+        "startDate",
+        "salary"
+      ],
+      "additionalProperties": false
+    },
+    "defaultData": {
+      "governingLaw": "State of Delaware",
+      "ptoDays": 20,
+      "payPeriod": "semi-monthly",
+      "bonus": "You will not be eligible for a bonus in your first year.",
+      "equity": "No equity grant is offered at this time.",
+      "benefits": "You will be eligible for the Company's standard health, dental and vision coverage on the terms of those plans.",
+      "location": "the Company's principal office"
+    },
+    "templateContent": "<h1>EMPLOYMENT OFFER LETTER</h1>\n<p>{{effectiveDate}}</p>\n  <p>{{partyB.name}}<br/>{{partyB.address}}</p>\n  <p>Dear {{partyB.name}},</p>\n  <p>On behalf of {{partyA.name}} (the &ldquo;Company&rdquo;), I am pleased to offer you the position of {{jobTitle}}, reporting to {{manager}}. This letter sets out the terms of that offer.</p>\n\n  <h2>Start Date and Location</h2>\n  <p>Your employment is expected to begin on {{startDate}}. Your work location is {{location}}.</p>\n\n  <h2>Compensation</h2>\n  <p>Your annual base salary will be {{salary}}, paid {{payPeriod}}, less applicable withholdings and deductions. {{bonus}}</p>\n\n  <h2>Equity</h2>\n  <p>{{equity}} Any equity grant is subject to board approval and to the terms of the Company&rsquo;s equity plan and your individual grant agreement.</p>\n\n  <h2>Benefits and Time Off</h2>\n  <p>{{benefits}} You will be eligible for {{ptoDays}} days of paid time off per year, accrued and taken under Company policy. Benefits may change at the Company&rsquo;s discretion.</p>\n\n  <h2>At-Will Employment</h2>\n  <p>Your employment with the Company is at will. Either you or the Company may end it at any time, with or without cause and with or without notice. Nothing in this letter is a contract of employment for any fixed period, and no Company representative may alter the at-will nature of your employment except in a writing signed by an authorised officer.</p>\n\n  <h2>Conditions</h2>\n  <p>This offer is contingent on your providing evidence of your legal authorisation to work, on satisfactory completion of any background check the Company conducts, and on your signing the Company&rsquo;s confidentiality and invention assignment agreement before or on your start date.</p>\n\n  <h2>Prior Obligations</h2>\n  <p>By accepting, you confirm that you are not subject to any agreement with a former employer that would restrict your work for the Company, and that you will not bring or use any former employer&rsquo;s confidential information.</p>\n\n  <h2>Entire Agreement</h2>\n  <p>This letter is the entire agreement on its subject matter and supersedes all prior discussions, written or oral. It is governed by the laws of {{governingLaw}}.</p>\n\n  <p>This offer lapses if not accepted by {{offerExpiry}}. To accept, sign below.</p>\n<h2>Execution</h2>\n  <p>IN WITNESS WHEREOF, the parties have executed this letter as of the Effective Date.</p>\n  <table class=\"signature-blocks\">\n    <tr>\n      <td>\n        <p class=\"party\">{{partyA.name}}</p>\n        <p>By: ______________________________</p>\n        <p>Name: ______________________________</p>\n        <p>Title: ______________________________</p>\n        <p>Date: ______________________________</p>\n      </td>\n      <td>\n        <p class=\"party\">{{partyB.name}}</p>\n        <p>By: ______________________________</p>\n        <p>Name: ______________________________</p>\n        <p>Title: ______________________________</p>\n        <p>Date: ______________________________</p>\n      </td>\n    </tr>\n  </table>\n<p class=\"notice\">Generated from the Propper starter pack. Review with counsel before use.</p>"
+  },
+  "signTemplate": {
+    "name": "Employment Offer Letter (Signing)",
+    "description": "Signing template for Employment Offer Letter. Attach the generated document, then add the roles and fields below.",
+    "type": "SEQUENTIAL"
+  },
+  "roles": [
+    {
+      "role": "Company Signer",
+      "order": 0
+    },
+    {
+      "role": "Candidate",
+      "order": 1
+    }
+  ],
+  "signatureAnchors": [
+    {
+      "role": "Company Signer",
+      "anchorString": "By:",
+      "occurrence": 1,
+      "fields": [
+        "SIGNATURE",
+        "AUTO_FILL_NAME",
+        "AUTO_FILL_TITLE",
+        "AUTO_FILL_DATE"
+      ]
+    },
+    {
+      "role": "Candidate",
+      "anchorString": "By:",
+      "occurrence": 2,
+      "fields": [
+        "SIGNATURE",
+        "AUTO_FILL_NAME",
+        "AUTO_FILL_DATE"
+      ]
+    }
+  ]
+}

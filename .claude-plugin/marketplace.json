@@ -1,0 +1,14 @@
+{
+  "name": "propper-marketplace",
+  "owner": {
+    "name": "PropperDocs, Inc."
+  },
+  "description": "Propper's e-signature and agreement-automation plugin for Claude Code and Cowork.",
+  "plugins": [
+    {
+      "name": "propper",
+      "source": "./",
+      "description": "Create, send, and track agreements for e-signature — generate documents from templates, place signature fields, route for signing, and monitor status."
+    }
+  ]
+}

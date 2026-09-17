@@ -1,0 +1,139 @@
+{
+  "genTemplate": {
+    "name": "Master Services Agreement",
+    "description": "Framework terms governing all future statements of work between a supplier and a client.",
+    "templateType": "contract",
+    "generationKind": "HTML_MDX",
+    "cssStyles": "body{font-family:Georgia,'Times New Roman',serif;font-size:11pt;line-height:1.5;color:#111}\nh1{font-size:15pt;text-align:center;text-transform:uppercase;letter-spacing:.04em;margin-bottom:1.5em}\nh2{font-size:11pt;text-transform:uppercase;letter-spacing:.03em;margin-top:1.6em;margin-bottom:.4em}\np{margin:.6em 0}\nol{margin:.4em 0 .4em 1.2em}\ntable.signature-blocks{width:100%;margin-top:2em;border-collapse:collapse}\ntable.signature-blocks td{width:50%;vertical-align:top;padding-right:2em}\np.party{font-weight:bold;text-transform:uppercase;margin-bottom:1.6em}\n.notice{margin-top:2em;font-size:9pt;color:#555}",
+    "dataSchema": {
+      "type": "object",
+      "properties": {
+        "effectiveDate": {
+          "type": "string",
+          "description": "Date the agreement takes effect.",
+          "format": "date"
+        },
+        "governingLaw": {
+          "type": "string",
+          "description": "Governing law jurisdiction, e.g. State of Delaware."
+        },
+        "partyA": {
+          "type": "object",
+          "description": "The disclosing or contracting party listed first.",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Full legal entity name, including suffix."
+            },
+            "entityType": {
+              "type": "string",
+              "description": "Entity form, e.g. a Delaware corporation."
+            },
+            "address": {
+              "type": "string",
+              "description": "Notice address."
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "partyB": {
+          "type": "object",
+          "description": "The receiving or counterparty listed second.",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Full legal entity name, including suffix."
+            },
+            "entityType": {
+              "type": "string",
+              "description": "Entity form, e.g. a Delaware corporation."
+            },
+            "address": {
+              "type": "string",
+              "description": "Notice address."
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "termYears": {
+          "type": "integer",
+          "description": "Initial term in years."
+        },
+        "renewalMonths": {
+          "type": "integer",
+          "description": "Length of each automatic renewal period in months."
+        },
+        "noticeDays": {
+          "type": "integer",
+          "description": "Days of notice to prevent renewal or terminate for convenience."
+        },
+        "paymentDays": {
+          "type": "integer",
+          "description": "Days to pay an undisputed invoice."
+        },
+        "liabilityCap": {
+          "type": "string",
+          "description": "Liability cap, e.g. fees paid in the twelve months preceding the claim."
+        }
+      },
+      "required": [
+        "effectiveDate",
+        "partyA",
+        "partyB"
+      ],
+      "additionalProperties": false
+    },
+    "defaultData": {
+      "governingLaw": "State of Delaware",
+      "termYears": 1,
+      "renewalMonths": 12,
+      "noticeDays": 60,
+      "paymentDays": 30,
+      "liabilityCap": "the fees paid or payable under the relevant SOW in the twelve months preceding the claim"
+    },
+    "templateContent": "<h1>MASTER SERVICES AGREEMENT</h1>\n<p>This Master Services Agreement (the &ldquo;Agreement&rdquo;) is entered into as of {{effectiveDate}} (the &ldquo;Effective Date&rdquo;) by and between {{partyA.name}}, {{partyA.entityType}} (&ldquo;Client&rdquo;), and {{partyB.name}}, {{partyB.entityType}} (&ldquo;Supplier&rdquo;). Client and Supplier are each a &ldquo;Party&rdquo; and together the &ldquo;Parties.&rdquo;</p>\n  <h2>1. Structure</h2>\n  <p>This Agreement sets the terms for services Supplier provides to Client. Each engagement is described in a statement of work signed by both Parties (each, an &ldquo;SOW&rdquo;). This Agreement governs every SOW. Where an SOW conflicts with this Agreement, this Agreement controls unless the SOW expressly overrides a named section.</p>\n\n  <h2>2. Services</h2>\n  <p>Supplier will perform the services described in each SOW in a professional and workmanlike manner, using personnel with the necessary skill and experience.</p>\n\n  <h2>3. Fees and Payment</h2>\n  <p>Fees are set in each SOW. Supplier invoices as the SOW provides. Client pays undisputed invoices within {{paymentDays}} days of receipt. Client must raise any dispute in writing before the due date, and pay the undisputed portion on time. Fees exclude taxes, which Client pays other than taxes on Supplier&rsquo;s income.</p>\n\n  <h2>4. Term and Termination</h2>\n  <p>This Agreement runs for {{termYears}} years from the Effective Date and renews automatically for successive {{renewalMonths}}-month periods unless either Party gives {{noticeDays}} days&rsquo; written notice before the end of the then-current term. Either Party may terminate this Agreement or any SOW for material breach that remains uncured 30 days after written notice, or immediately on the other Party&rsquo;s insolvency. Termination of this Agreement terminates every open SOW. Client pays for services properly performed through the termination date.</p>\n\n  <h2>5. Confidentiality</h2>\n  <p>Each Party will hold the other&rsquo;s non-public information in confidence, use it only to perform this Agreement, disclose it only to those who need it and are bound by equivalent obligations, and protect it with at least reasonable care. These obligations survive for three years after termination, and indefinitely for trade secrets.</p>\n\n  <h2>6. Intellectual Property</h2>\n  <p>Client owns the deliverables specified in each SOW on payment in full. Supplier retains ownership of its pre-existing materials, tools and general know-how, and grants Client a perpetual, worldwide, non-exclusive, royalty-free licence to use them as incorporated into the deliverables. Neither Party acquires any other right in the other&rsquo;s intellectual property.</p>\n\n  <h2>7. Data Protection</h2>\n  <p>Where Supplier processes personal data on Client&rsquo;s behalf, it does so only on Client&rsquo;s documented instructions, maintains appropriate technical and organisational security measures, and assists Client with data-subject requests and breach notification. The Parties will execute a data processing addendum where applicable law requires one.</p>\n\n  <h2>8. Warranties</h2>\n  <p>Each Party warrants it has authority to enter into this Agreement. Supplier warrants the services will conform to the relevant SOW and will not infringe any third-party intellectual property right. Except as stated, all other warranties are disclaimed to the extent permitted by law.</p>\n\n  <h2>9. Indemnity</h2>\n  <p>Supplier will defend Client against any third-party claim that the deliverables infringe an intellectual property right, and pay damages finally awarded, provided Client notifies Supplier promptly, gives Supplier control of the defence, and cooperates reasonably.</p>\n\n  <h2>10. Limitation of Liability</h2>\n  <p>Neither Party is liable for indirect, incidental, special, punitive or consequential damages, or for lost profits, however caused. Each Party&rsquo;s aggregate liability under this Agreement is limited to {{liabilityCap}}. These limits do not apply to breach of confidentiality, the indemnity in Section 9, or a Party&rsquo;s wilful misconduct.</p>\n\n  <h2>11. Insurance</h2>\n  <p>Supplier will maintain commercially reasonable insurance appropriate to the services, and provide evidence of coverage on request.</p>\n\n  <h2>12. Non-Solicitation</h2>\n  <p>During the term and for twelve months afterwards, neither Party will solicit for employment any employee of the other who was directly involved in the services. General advertising not targeted at those individuals is permitted.</p>\n\n  <h2>13. Independent Contractors</h2>\n  <p>The Parties are independent contractors. Neither is the agent of the other and neither may bind the other.</p>\n\n  <h2>14. Assignment</h2>\n  <p>Neither Party may assign this Agreement without the other&rsquo;s written consent, except to a successor in a merger or sale of substantially all assets.</p>\n\n  <h2>15. Notices</h2>\n  <p>Notices must be in writing and sent to the addresses on the signature page, or to any address a Party later designates in writing.</p>\n\n  <h2>Governing Law</h2>\n  <p>This Agreement is governed by the laws of {{governingLaw}}, without regard to its conflict-of-laws rules.</p>\n\n  <h2>Entire Agreement</h2>\n  <p>This Agreement is the entire agreement between the Parties on its subject matter and supersedes all prior discussions. It may be amended only in a writing signed by both Parties. It may be executed in counterparts and by electronic signature, each of which is an original.</p>\n<h2>Execution</h2>\n  <p>IN WITNESS WHEREOF, the parties have executed this Agreement as of the Effective Date.</p>\n  <table class=\"signature-blocks\">\n    <tr>\n      <td>\n        <p class=\"party\">{{partyA.name}}</p>\n        <p>By: ______________________________</p>\n        <p>Name: ______________________________</p>\n        <p>Title: ______________________________</p>\n        <p>Date: ______________________________</p>\n      </td>\n      <td>\n        <p class=\"party\">{{partyB.name}}</p>\n        <p>By: ______________________________</p>\n        <p>Name: ______________________________</p>\n        <p>Title: ______________________________</p>\n        <p>Date: ______________________________</p>\n      </td>\n    </tr>\n  </table>\n<p class=\"notice\">Generated from the Propper starter pack. Review with counsel before use.</p>"
+  },
+  "signTemplate": {
+    "name": "Master Services Agreement (Signing)",
+    "description": "Signing template for Master Services Agreement. Attach the generated document, then add the roles and fields below.",
+    "type": "PARALLEL"
+  },
+  "roles": [
+    {
+      "role": "Party A Signer",
+      "order": 0
+    },
+    {
+      "role": "Party B Signer",
+      "order": 1
+    }
+  ],
+  "signatureAnchors": [
+    {
+      "role": "Party A Signer",
+      "anchorString": "By:",
+      "occurrence": 1,
+      "fields": [
+        "SIGNATURE",
+        "AUTO_FILL_NAME",
+        "AUTO_FILL_TITLE",
+        "AUTO_FILL_DATE"
+      ]
+    },
+    {
+      "role": "Party B Signer",
+      "anchorString": "By:",
+      "occurrence": 2,
+      "fields": [
+        "SIGNATURE",
+        "AUTO_FILL_NAME",
+        "AUTO_FILL_TITLE",
+        "AUTO_FILL_DATE"
+      ]
+    }
+  ]
+}

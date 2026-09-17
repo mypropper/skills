@@ -1,0 +1,146 @@
+{
+  "genTemplate": {
+    "name": "Independent Contractor Agreement",
+    "description": "Engagement of an individual or firm as an independent contractor, with IP assignment and no employment relationship.",
+    "templateType": "contract",
+    "generationKind": "HTML_MDX",
+    "cssStyles": "body{font-family:Georgia,'Times New Roman',serif;font-size:11pt;line-height:1.5;color:#111}\nh1{font-size:15pt;text-align:center;text-transform:uppercase;letter-spacing:.04em;margin-bottom:1.5em}\nh2{font-size:11pt;text-transform:uppercase;letter-spacing:.03em;margin-top:1.6em;margin-bottom:.4em}\np{margin:.6em 0}\nol{margin:.4em 0 .4em 1.2em}\ntable.signature-blocks{width:100%;margin-top:2em;border-collapse:collapse}\ntable.signature-blocks td{width:50%;vertical-align:top;padding-right:2em}\np.party{font-weight:bold;text-transform:uppercase;margin-bottom:1.6em}\n.notice{margin-top:2em;font-size:9pt;color:#555}",
+    "dataSchema": {
+      "type": "object",
+      "properties": {
+        "effectiveDate": {
+          "type": "string",
+          "description": "Date the agreement takes effect.",
+          "format": "date"
+        },
+        "governingLaw": {
+          "type": "string",
+          "description": "Governing law jurisdiction, e.g. State of Delaware."
+        },
+        "partyA": {
+          "type": "object",
+          "description": "The disclosing or contracting party listed first.",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Full legal entity name, including suffix."
+            },
+            "entityType": {
+              "type": "string",
+              "description": "Entity form, e.g. a Delaware corporation."
+            },
+            "address": {
+              "type": "string",
+              "description": "Notice address."
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "partyB": {
+          "type": "object",
+          "description": "The receiving or counterparty listed second.",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Full legal entity name, including suffix."
+            },
+            "entityType": {
+              "type": "string",
+              "description": "Entity form, e.g. a Delaware corporation."
+            },
+            "address": {
+              "type": "string",
+              "description": "Notice address."
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "services": {
+          "type": "string",
+          "description": "Description of the services to be performed."
+        },
+        "rate": {
+          "type": "string",
+          "description": "Compensation, e.g. $150 per hour or $12,000 per month."
+        },
+        "paymentTerms": {
+          "type": "string",
+          "description": "Invoicing and payment terms, e.g. net 30 on monthly invoice."
+        },
+        "startDate": {
+          "type": "string",
+          "description": "Date services begin.",
+          "format": "date"
+        },
+        "endDate": {
+          "type": "string",
+          "description": "Date services end, or blank for ongoing.",
+          "format": "date"
+        },
+        "noticeDays": {
+          "type": "integer",
+          "description": "Days of written notice required to terminate for convenience."
+        }
+      },
+      "required": [
+        "effectiveDate",
+        "partyA",
+        "partyB",
+        "services",
+        "rate",
+        "startDate"
+      ],
+      "additionalProperties": false
+    },
+    "defaultData": {
+      "governingLaw": "State of Delaware",
+      "noticeDays": 30,
+      "paymentTerms": "Net 30 days from receipt of a monthly invoice.",
+      "endDate": "the Services are complete"
+    },
+    "templateContent": "<h1>INDEPENDENT CONTRACTOR AGREEMENT</h1>\n<p>This Independent Contractor Agreement (the &ldquo;Agreement&rdquo;) is entered into as of {{effectiveDate}} (the &ldquo;Effective Date&rdquo;) by and between {{partyA.name}}, {{partyA.entityType}} (&ldquo;Client&rdquo;), and {{partyB.name}}, {{partyB.entityType}} (&ldquo;Contractor&rdquo;). Client and Contractor are each a &ldquo;Party&rdquo; and together the &ldquo;Parties.&rdquo;</p>\n  <h2>1. Services</h2>\n  <p>Contractor will perform the following services (the &ldquo;Services&rdquo;): {{services}}. Contractor will perform the Services in a professional and workmanlike manner, consistent with applicable industry standards.</p>\n\n  <h2>2. Term</h2>\n  <p>Services begin on {{startDate}} and continue until {{endDate}} unless terminated earlier under Section 8.</p>\n\n  <h2>3. Compensation</h2>\n  <p>Client will pay Contractor {{rate}}. Payment terms: {{paymentTerms}}. Contractor is responsible for all expenses unless Client approves them in writing in advance.</p>\n\n  <h2>4. Independent Contractor Status</h2>\n  <p>Contractor is an independent contractor and not an employee, partner, agent or joint venturer of Client. Contractor controls the manner and means of performing the Services. Contractor is not eligible for Client employee benefits and is solely responsible for all taxes, withholdings, insurance and statutory contributions arising from the compensation paid under this Agreement.</p>\n\n  <h2>5. Intellectual Property</h2>\n  <p>All deliverables, work product, inventions and materials created by Contractor in performing the Services (the &ldquo;Work Product&rdquo;) are works made for hire owned by Client. To the extent any Work Product does not vest in Client by operation of law, Contractor irrevocably assigns all right, title and interest in it to Client, and will execute any documents reasonably required to perfect that assignment. Contractor retains ownership of pre-existing materials it brings to the engagement and grants Client a perpetual, worldwide, royalty-free licence to use them as incorporated into the Work Product.</p>\n\n  <h2>6. Confidentiality</h2>\n  <p>Contractor will hold Client&rsquo;s non-public information in confidence, use it only to perform the Services, and not disclose it to any third party. This obligation survives termination.</p>\n\n  <h2>7. Representations</h2>\n  <p>Contractor represents that it has the right to enter into this Agreement, that performing the Services will not breach any obligation to a third party, and that the Work Product will be original and will not infringe any third-party right.</p>\n\n  <h2>8. Termination</h2>\n  <p>Either Party may terminate this Agreement on {{noticeDays}} days&rsquo; written notice, or immediately for material breach that remains uncured 10 days after written notice. On termination Client will pay for Services properly performed through the termination date, and Contractor will deliver all Work Product in progress.</p>\n\n  <h2>9. Limitation of Liability</h2>\n  <p>Neither Party is liable for indirect, incidental, special or consequential damages. Each Party&rsquo;s aggregate liability is limited to the total amounts paid or payable under this Agreement, except for breach of confidentiality, infringement, or wilful misconduct.</p>\n\n  <h2>Governing Law</h2>\n  <p>This Agreement is governed by the laws of {{governingLaw}}, without regard to its conflict-of-laws rules.</p>\n\n  <h2>Entire Agreement</h2>\n  <p>This Agreement is the entire agreement between the Parties on its subject matter and supersedes all prior discussions. It may be amended only in a writing signed by both Parties. It may be executed in counterparts and by electronic signature, each of which is an original.</p>\n<h2>Execution</h2>\n  <p>IN WITNESS WHEREOF, the parties have executed this Agreement as of the Effective Date.</p>\n  <table class=\"signature-blocks\">\n    <tr>\n      <td>\n        <p class=\"party\">{{partyA.name}}</p>\n        <p>By: ______________________________</p>\n        <p>Name: ______________________________</p>\n        <p>Title: ______________________________</p>\n        <p>Date: ______________________________</p>\n      </td>\n      <td>\n        <p class=\"party\">{{partyB.name}}</p>\n        <p>By: ______________________________</p>\n        <p>Name: ______________________________</p>\n        <p>Title: ______________________________</p>\n        <p>Date: ______________________________</p>\n      </td>\n    </tr>\n  </table>\n<p class=\"notice\">Generated from the Propper starter pack. Review with counsel before use.</p>"
+  },
+  "signTemplate": {
+    "name": "Independent Contractor Agreement (Signing)",
+    "description": "Signing template for Independent Contractor Agreement. Attach the generated document, then add the roles and fields below.",
+    "type": "PARALLEL"
+  },
+  "roles": [
+    {
+      "role": "Client Signer",
+      "order": 0
+    },
+    {
+      "role": "Contractor",
+      "order": 1
+    }
+  ],
+  "signatureAnchors": [
+    {
+      "role": "Client Signer",
+      "anchorString": "By:",
+      "occurrence": 1,
+      "fields": [
+        "SIGNATURE",
+        "AUTO_FILL_NAME",
+        "AUTO_FILL_TITLE",
+        "AUTO_FILL_DATE"
+      ]
+    },
+    {
+      "role": "Contractor",
+      "anchorString": "By:",
+      "occurrence": 2,
+      "fields": [
+        "SIGNATURE",
+        "AUTO_FILL_NAME",
+        "AUTO_FILL_TITLE",
+        "AUTO_FILL_DATE"
+      ]
+    }
+  ]
+}

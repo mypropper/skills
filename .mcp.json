@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "propper": {
+      "type": "streamable-http",
+      "url": "https://mcp.propper.ai/mcp"
+    }
+  }
+}

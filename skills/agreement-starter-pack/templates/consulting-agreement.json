@@ -1,0 +1,150 @@
+{
+  "genTemplate": {
+    "name": "Consulting Agreement",
+    "description": "Advisory engagement of a consultant, typically ongoing and retainer-based, with confidentiality and IP terms.",
+    "templateType": "contract",
+    "generationKind": "HTML_MDX",
+    "cssStyles": "body{font-family:Georgia,'Times New Roman',serif;font-size:11pt;line-height:1.5;color:#111}\nh1{font-size:15pt;text-align:center;text-transform:uppercase;letter-spacing:.04em;margin-bottom:1.5em}\nh2{font-size:11pt;text-transform:uppercase;letter-spacing:.03em;margin-top:1.6em;margin-bottom:.4em}\np{margin:.6em 0}\nol{margin:.4em 0 .4em 1.2em}\ntable.signature-blocks{width:100%;margin-top:2em;border-collapse:collapse}\ntable.signature-blocks td{width:50%;vertical-align:top;padding-right:2em}\np.party{font-weight:bold;text-transform:uppercase;margin-bottom:1.6em}\n.notice{margin-top:2em;font-size:9pt;color:#555}",
+    "dataSchema": {
+      "type": "object",
+      "properties": {
+        "effectiveDate": {
+          "type": "string",
+          "description": "Date the agreement takes effect.",
+          "format": "date"
+        },
+        "governingLaw": {
+          "type": "string",
+          "description": "Governing law jurisdiction, e.g. State of Delaware."
+        },
+        "partyA": {
+          "type": "object",
+          "description": "The disclosing or contracting party listed first.",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Full legal entity name, including suffix."
+            },
+            "entityType": {
+              "type": "string",
+              "description": "Entity form, e.g. a Delaware corporation."
+            },
+            "address": {
+              "type": "string",
+              "description": "Notice address."
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "partyB": {
+          "type": "object",
+          "description": "The receiving or counterparty listed second.",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Full legal entity name, including suffix."
+            },
+            "entityType": {
+              "type": "string",
+              "description": "Entity form, e.g. a Delaware corporation."
+            },
+            "address": {
+              "type": "string",
+              "description": "Notice address."
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "services": {
+          "type": "string",
+          "description": "Scope of advisory services."
+        },
+        "retainer": {
+          "type": "string",
+          "description": "Retainer or fee, e.g. $8,000 per month."
+        },
+        "hoursPerMonth": {
+          "type": "string",
+          "description": "Expected time commitment, e.g. up to 20 hours per month."
+        },
+        "paymentTerms": {
+          "type": "string",
+          "description": "Invoicing and payment terms."
+        },
+        "startDate": {
+          "type": "string",
+          "description": "Engagement start date.",
+          "format": "date"
+        },
+        "termMonths": {
+          "type": "integer",
+          "description": "Initial term in months."
+        },
+        "noticeDays": {
+          "type": "integer",
+          "description": "Days of notice to terminate for convenience."
+        }
+      },
+      "required": [
+        "effectiveDate",
+        "partyA",
+        "partyB",
+        "services",
+        "retainer",
+        "startDate"
+      ],
+      "additionalProperties": false
+    },
+    "defaultData": {
+      "governingLaw": "State of Delaware",
+      "termMonths": 6,
+      "noticeDays": 30,
+      "hoursPerMonth": "up to 20 hours per month",
+      "paymentTerms": "Net 15 days from receipt of a monthly invoice."
+    },
+    "templateContent": "<h1>CONSULTING AGREEMENT</h1>\n<p>This Consulting Agreement (the &ldquo;Agreement&rdquo;) is entered into as of {{effectiveDate}} (the &ldquo;Effective Date&rdquo;) by and between {{partyA.name}}, {{partyA.entityType}} (&ldquo;Company&rdquo;), and {{partyB.name}}, {{partyB.entityType}} (&ldquo;Consultant&rdquo;). Company and Consultant are each a &ldquo;Party&rdquo; and together the &ldquo;Parties.&rdquo;</p>\n  <h2>1. Services</h2>\n  <p>Consultant will provide the following advisory services (the &ldquo;Services&rdquo;): {{services}}. Consultant will devote {{hoursPerMonth}} to the Services and will be reasonably available for scheduled meetings.</p>\n\n  <h2>2. Term</h2>\n  <p>This Agreement begins on {{startDate}} and continues for {{termMonths}} months, renewing month to month thereafter until terminated.</p>\n\n  <h2>3. Fees</h2>\n  <p>Company will pay Consultant {{retainer}}. Payment terms: {{paymentTerms}}. Company will reimburse pre-approved, reasonable out-of-pocket expenses on presentation of receipts.</p>\n\n  <h2>4. Independent Contractor</h2>\n  <p>Consultant is an independent contractor, not an employee, agent or partner of Company, and has no authority to bind Company. Consultant is responsible for all taxes and statutory contributions on the fees paid under this Agreement, and is not eligible for Company employee benefits.</p>\n\n  <h2>5. Confidentiality</h2>\n  <p>Consultant will hold Company&rsquo;s non-public information in confidence, use it only to perform the Services, and not disclose it. This obligation survives termination indefinitely for trade secrets and for three years otherwise.</p>\n\n  <h2>6. Intellectual Property</h2>\n  <p>Consultant assigns to Company all right, title and interest in any work product, advice, materials, inventions and improvements created in performing the Services. Consultant retains its pre-existing materials and general know-how, and grants Company a perpetual, worldwide, royalty-free licence to use them as embodied in the work product.</p>\n\n  <h2>7. No Conflict</h2>\n  <p>Consultant represents that performing the Services does not conflict with any obligation it owes to a third party. Consultant will disclose in writing any engagement with a direct competitor of Company arising during the term.</p>\n\n  <h2>8. Non-Solicitation</h2>\n  <p>During the term and for twelve months afterwards, Consultant will not solicit for employment any Company employee with whom Consultant worked in connection with the Services.</p>\n\n  <h2>9. Termination</h2>\n  <p>Either Party may terminate on {{noticeDays}} days&rsquo; written notice, or immediately for material breach uncured 10 days after written notice. On termination Company pays for Services performed through the termination date, and Consultant returns Company materials and delivers work product in progress. Sections 5, 6 and 8 survive.</p>\n\n  <h2>10. Limitation of Liability</h2>\n  <p>Neither Party is liable for indirect, incidental, special or consequential damages. Consultant&rsquo;s aggregate liability is limited to the fees paid in the twelve months preceding the claim, except for breach of confidentiality or wilful misconduct.</p>\n\n  <h2>11. Not Advice of a Regulated Kind</h2>\n  <p>Unless the Services expressly say otherwise, Consultant does not provide legal, tax, accounting, medical or investment advice, and Company will obtain its own professional advice on those matters.</p>\n\n  <h2>Governing Law</h2>\n  <p>This Agreement is governed by the laws of {{governingLaw}}, without regard to its conflict-of-laws rules.</p>\n\n  <h2>Entire Agreement</h2>\n  <p>This Agreement is the entire agreement between the Parties on its subject matter and supersedes all prior discussions. It may be amended only in a writing signed by both Parties. It may be executed in counterparts and by electronic signature, each of which is an original.</p>\n<h2>Execution</h2>\n  <p>IN WITNESS WHEREOF, the parties have executed this Agreement as of the Effective Date.</p>\n  <table class=\"signature-blocks\">\n    <tr>\n      <td>\n        <p class=\"party\">{{partyA.name}}</p>\n        <p>By: ______________________________</p>\n        <p>Name: ______________________________</p>\n        <p>Title: ______________________________</p>\n        <p>Date: ______________________________</p>\n      </td>\n      <td>\n        <p class=\"party\">{{partyB.name}}</p>\n        <p>By: ______________________________</p>\n        <p>Name: ______________________________</p>\n        <p>Title: ______________________________</p>\n        <p>Date: ______________________________</p>\n      </td>\n    </tr>\n  </table>\n<p class=\"notice\">Generated from the Propper starter pack. Review with counsel before use.</p>"
+  },
+  "signTemplate": {
+    "name": "Consulting Agreement (Signing)",
+    "description": "Signing template for Consulting Agreement. Attach the generated document, then add the roles and fields below.",
+    "type": "PARALLEL"
+  },
+  "roles": [
+    {
+      "role": "Company Signer",
+      "order": 0
+    },
+    {
+      "role": "Consultant",
+      "order": 1
+    }
+  ],
+  "signatureAnchors": [
+    {
+      "role": "Company Signer",
+      "anchorString": "By:",
+      "occurrence": 1,
+      "fields": [
+        "SIGNATURE",
+        "AUTO_FILL_NAME",
+        "AUTO_FILL_TITLE",
+        "AUTO_FILL_DATE"
+      ]
+    },
+    {
+      "role": "Consultant",
+      "anchorString": "By:",
+      "occurrence": 2,
+      "fields": [
+        "SIGNATURE",
+        "AUTO_FILL_NAME",
+        "AUTO_FILL_TITLE",
+        "AUTO_FILL_DATE"
+      ]
+    }
+  ]
+}
