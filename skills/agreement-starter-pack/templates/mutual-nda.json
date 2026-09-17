@@ -1,0 +1,129 @@
+{
+  "genTemplate": {
+    "name": "Mutual Non-Disclosure Agreement",
+    "description": "Two-way confidentiality agreement for evaluating a potential business relationship.",
+    "templateType": "contract",
+    "generationKind": "HTML_MDX",
+    "cssStyles": "body{font-family:Georgia,'Times New Roman',serif;font-size:11pt;line-height:1.5;color:#111}\nh1{font-size:15pt;text-align:center;text-transform:uppercase;letter-spacing:.04em;margin-bottom:1.5em}\nh2{font-size:11pt;text-transform:uppercase;letter-spacing:.03em;margin-top:1.6em;margin-bottom:.4em}\np{margin:.6em 0}\nol{margin:.4em 0 .4em 1.2em}\ntable.signature-blocks{width:100%;margin-top:2em;border-collapse:collapse}\ntable.signature-blocks td{width:50%;vertical-align:top;padding-right:2em}\np.party{font-weight:bold;text-transform:uppercase;margin-bottom:1.6em}\n.notice{margin-top:2em;font-size:9pt;color:#555}",
+    "dataSchema": {
+      "type": "object",
+      "properties": {
+        "effectiveDate": {
+          "type": "string",
+          "description": "Date the agreement takes effect.",
+          "format": "date"
+        },
+        "governingLaw": {
+          "type": "string",
+          "description": "Governing law jurisdiction, e.g. State of Delaware."
+        },
+        "partyA": {
+          "type": "object",
+          "description": "The disclosing or contracting party listed first.",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Full legal entity name, including suffix."
+            },
+            "entityType": {
+              "type": "string",
+              "description": "Entity form, e.g. a Delaware corporation."
+            },
+            "address": {
+              "type": "string",
+              "description": "Notice address."
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "partyB": {
+          "type": "object",
+          "description": "The receiving or counterparty listed second.",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Full legal entity name, including suffix."
+            },
+            "entityType": {
+              "type": "string",
+              "description": "Entity form, e.g. a Delaware corporation."
+            },
+            "address": {
+              "type": "string",
+              "description": "Notice address."
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "purpose": {
+          "type": "string",
+          "description": "The permitted purpose, e.g. evaluating a potential commercial relationship."
+        },
+        "termYears": {
+          "type": "integer",
+          "description": "Years the agreement runs before expiry."
+        },
+        "confidentialityYears": {
+          "type": "integer",
+          "description": "Years confidentiality survives disclosure."
+        }
+      },
+      "required": [
+        "effectiveDate",
+        "partyA",
+        "partyB",
+        "purpose"
+      ],
+      "additionalProperties": false
+    },
+    "defaultData": {
+      "governingLaw": "State of Delaware",
+      "termYears": 2,
+      "confidentialityYears": 3
+    },
+    "templateContent": "<h1>MUTUAL NON-DISCLOSURE AGREEMENT</h1>\n<p>This Mutual Non-Disclosure Agreement (the &ldquo;Agreement&rdquo;) is entered into as of {{effectiveDate}} (the &ldquo;Effective Date&rdquo;) by and between {{partyA.name}}, {{partyA.entityType}} (&ldquo;Party A&rdquo;), and {{partyB.name}}, {{partyB.entityType}} (&ldquo;Party B&rdquo;). Party A and Party B are each a &ldquo;Party&rdquo; and together the &ldquo;Parties.&rdquo;</p>\n  <h2>1. Purpose</h2>\n  <p>The Parties wish to exchange confidential information for the purpose of {{purpose}} (the &ldquo;Purpose&rdquo;).</p>\n\n  <h2>2. Confidential Information</h2>\n  <p>&ldquo;Confidential Information&rdquo; means non-public information disclosed by one Party (the &ldquo;Discloser&rdquo;) to the other (the &ldquo;Recipient&rdquo;), in any form, that is marked confidential or that a reasonable person would understand to be confidential from its nature or the circumstances of disclosure.</p>\n\n  <h2>3. Exclusions</h2>\n  <p>Confidential Information does not include information that: (a) is or becomes public through no act of the Recipient; (b) the Recipient held without obligation of confidence before disclosure; (c) the Recipient receives from a third party free to disclose it; or (d) the Recipient independently develops without use of or reference to the Confidential Information.</p>\n\n  <h2>4. Obligations</h2>\n  <p>The Recipient will: (a) use Confidential Information solely for the Purpose; (b) protect it with at least the care it uses for its own confidential information, and in no event less than reasonable care; and (c) disclose it only to its employees, contractors and advisers who need it for the Purpose and are bound by confidentiality obligations no less protective than these. The Recipient is responsible for any breach by those recipients.</p>\n\n  <h2>5. Compelled Disclosure</h2>\n  <p>The Recipient may disclose Confidential Information to the extent required by law or court order, provided it gives the Discloser prompt notice where legally permitted and reasonable assistance in seeking protective treatment.</p>\n\n  <h2>6. Term</h2>\n  <p>This Agreement runs for {{termYears}} years from the Effective Date. Confidentiality obligations survive for {{confidentialityYears}} years after each disclosure, and indefinitely for trade secrets for as long as they remain trade secrets under applicable law.</p>\n\n  <h2>7. Return or Destruction</h2>\n  <p>On the Discloser&rsquo;s written request, the Recipient will return or destroy Confidential Information in its possession, except for copies retained in routine backups or as required by law, which remain subject to this Agreement.</p>\n\n  <h2>8. No Licence, No Obligation</h2>\n  <p>No licence or other right in Confidential Information is granted except as expressly set out here. Nothing in this Agreement obliges either Party to enter into any further transaction or to disclose any particular information.</p>\n\n  <h2>9. No Warranty</h2>\n  <p>Confidential Information is provided &ldquo;as is.&rdquo; Neither Party warrants its accuracy or completeness.</p>\n\n  <h2>10. Remedies</h2>\n  <p>Unauthorised disclosure may cause harm for which damages are inadequate. Each Party may seek injunctive relief in addition to any other remedy, without the need to post bond.</p>\n\n  <h2>Governing Law</h2>\n  <p>This Agreement is governed by the laws of {{governingLaw}}, without regard to its conflict-of-laws rules.</p>\n\n  <h2>Entire Agreement</h2>\n  <p>This Agreement is the entire agreement between the Parties on its subject matter and supersedes all prior discussions. It may be amended only in a writing signed by both Parties. It may be executed in counterparts and by electronic signature, each of which is an original.</p>\n<h2>Execution</h2>\n  <p>IN WITNESS WHEREOF, the parties have executed this Agreement as of the Effective Date.</p>\n  <table class=\"signature-blocks\">\n    <tr>\n      <td>\n        <p class=\"party\">{{partyA.name}}</p>\n        <p>By: ______________________________</p>\n        <p>Name: ______________________________</p>\n        <p>Title: ______________________________</p>\n        <p>Date: ______________________________</p>\n      </td>\n      <td>\n        <p class=\"party\">{{partyB.name}}</p>\n        <p>By: ______________________________</p>\n        <p>Name: ______________________________</p>\n        <p>Title: ______________________________</p>\n        <p>Date: ______________________________</p>\n      </td>\n    </tr>\n  </table>\n<p class=\"notice\">Generated from the Propper starter pack. Review with counsel before use.</p>"
+  },
+  "signTemplate": {
+    "name": "Mutual Non-Disclosure Agreement (Signing)",
+    "description": "Signing template for Mutual Non-Disclosure Agreement. Attach the generated document, then add the roles and fields below.",
+    "type": "PARALLEL"
+  },
+  "roles": [
+    {
+      "role": "Party A Signer",
+      "order": 0
+    },
+    {
+      "role": "Party B Signer",
+      "order": 1
+    }
+  ],
+  "signatureAnchors": [
+    {
+      "role": "Party A Signer",
+      "anchorString": "By:",
+      "occurrence": 1,
+      "fields": [
+        "SIGNATURE",
+        "AUTO_FILL_NAME",
+        "AUTO_FILL_TITLE",
+        "AUTO_FILL_DATE"
+      ]
+    },
+    {
+      "role": "Party B Signer",
+      "anchorString": "By:",
+      "occurrence": 2,
+      "fields": [
+        "SIGNATURE",
+        "AUTO_FILL_NAME",
+        "AUTO_FILL_TITLE",
+        "AUTO_FILL_DATE"
+      ]
+    }
+  ]
+}

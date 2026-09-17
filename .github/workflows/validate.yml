@@ -1,0 +1,56 @@
+name: validate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  structure:
+    name: Repo structure
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+      - name: Structural checks
+        run: node scripts/check-repo.mjs
+
+  manifests:
+    name: Plugin manifests and skills
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+      - name: Validate marketplace manifest
+        run: claude plugin validate . --strict
+      - name: Validate plugin manifest
+        run: claude plugin validate .claude-plugin/plugin.json --strict
+      - name: Validate skills
+        run: claude plugin validate skills --strict
+      - name: Validate contributor skills
+        run: claude plugin validate .agents/skills --strict
+
+  discoverable:
+    name: Skills discoverable by the open skills CLI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+      - name: List skills
+        run: npx --yes skills@latest add . --list

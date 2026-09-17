@@ -1,0 +1,197 @@
+{
+  "genTemplate": {
+    "name": "Statement of Work",
+    "description": "Scope, deliverables, schedule and fees for a single engagement under an existing master agreement.",
+    "templateType": "contract",
+    "generationKind": "HTML_MDX",
+    "cssStyles": "body{font-family:Georgia,'Times New Roman',serif;font-size:11pt;line-height:1.5;color:#111}\nh1{font-size:15pt;text-align:center;text-transform:uppercase;letter-spacing:.04em;margin-bottom:1.5em}\nh2{font-size:11pt;text-transform:uppercase;letter-spacing:.03em;margin-top:1.6em;margin-bottom:.4em}\np{margin:.6em 0}\nol{margin:.4em 0 .4em 1.2em}\ntable.signature-blocks{width:100%;margin-top:2em;border-collapse:collapse}\ntable.signature-blocks td{width:50%;vertical-align:top;padding-right:2em}\np.party{font-weight:bold;text-transform:uppercase;margin-bottom:1.6em}\n.notice{margin-top:2em;font-size:9pt;color:#555}",
+    "dataSchema": {
+      "type": "object",
+      "properties": {
+        "effectiveDate": {
+          "type": "string",
+          "description": "Date the agreement takes effect.",
+          "format": "date"
+        },
+        "governingLaw": {
+          "type": "string",
+          "description": "Governing law jurisdiction, e.g. State of Delaware."
+        },
+        "partyA": {
+          "type": "object",
+          "description": "The disclosing or contracting party listed first.",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Full legal entity name, including suffix."
+            },
+            "entityType": {
+              "type": "string",
+              "description": "Entity form, e.g. a Delaware corporation."
+            },
+            "address": {
+              "type": "string",
+              "description": "Notice address."
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "partyB": {
+          "type": "object",
+          "description": "The receiving or counterparty listed second.",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Full legal entity name, including suffix."
+            },
+            "entityType": {
+              "type": "string",
+              "description": "Entity form, e.g. a Delaware corporation."
+            },
+            "address": {
+              "type": "string",
+              "description": "Notice address."
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "sowNumber": {
+          "type": "string",
+          "description": "Statement of work reference number."
+        },
+        "mtaDate": {
+          "type": "string",
+          "description": "Effective date of the master agreement this SOW sits under.",
+          "format": "date"
+        },
+        "scope": {
+          "type": "string",
+          "description": "Narrative description of the work in scope."
+        },
+        "deliverables": {
+          "type": "array",
+          "description": "Deliverables, each with a name, description and due date.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Deliverable name."
+              },
+              "description": {
+                "type": "string",
+                "description": "What is delivered."
+              },
+              "dueDate": {
+                "type": "string",
+                "description": "Due date.",
+                "format": "date"
+              }
+            },
+            "required": [
+              "name"
+            ]
+          }
+        },
+        "outOfScope": {
+          "type": "string",
+          "description": "Work explicitly excluded."
+        },
+        "fees": {
+          "type": "string",
+          "description": "Total fees and structure, e.g. fixed fee of $45,000."
+        },
+        "milestones": {
+          "type": "array",
+          "description": "Payment milestones.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Milestone name."
+              },
+              "amount": {
+                "type": "string",
+                "description": "Amount payable."
+              },
+              "trigger": {
+                "type": "string",
+                "description": "What triggers the payment."
+              }
+            },
+            "required": [
+              "name"
+            ]
+          }
+        },
+        "startDate": {
+          "type": "string",
+          "description": "Engagement start date.",
+          "format": "date"
+        },
+        "endDate": {
+          "type": "string",
+          "description": "Engagement end date.",
+          "format": "date"
+        }
+      },
+      "required": [
+        "effectiveDate",
+        "partyA",
+        "partyB",
+        "scope",
+        "fees"
+      ],
+      "additionalProperties": false
+    },
+    "defaultData": {
+      "governingLaw": "State of Delaware",
+      "outOfScope": "No work is in scope other than the deliverables listed above."
+    },
+    "templateContent": "<h1>STATEMENT OF WORK</h1>\n<p>This Statement of Work No. {{sowNumber}} (this &ldquo;SOW&rdquo;) is entered into as of {{effectiveDate}} between {{partyA.name}} (&ldquo;Client&rdquo;) and {{partyB.name}} (&ldquo;Supplier&rdquo;), and is governed by the Master Services Agreement between the Parties dated {{mtaDate}} (the &ldquo;MSA&rdquo;). Terms defined in the MSA have the same meaning here. Where this SOW conflicts with the MSA, the MSA controls unless this SOW says otherwise and is signed by both Parties.</p>\n\n  <h2>1. Scope</h2>\n  <p>{{scope}}</p>\n\n  <h2>2. Deliverables</h2>\n  <ol>\n  {{#each deliverables}}\n    <li><strong>{{name}}</strong> &mdash; {{description}} Due: {{dueDate}}.</li>\n  {{/each}}\n  </ol>\n\n  <h2>3. Out of Scope</h2>\n  <p>{{outOfScope}} Anything not expressly listed in Section 2 is out of scope and requires a signed change order.</p>\n\n  <h2>4. Schedule</h2>\n  <p>Work begins on {{startDate}} and is scheduled to complete by {{endDate}}. Dates assume Client provides access, information and approvals within three business days of request.</p>\n\n  <h2>5. Fees</h2>\n  <p>{{fees}}</p>\n\n  <h2>6. Payment Milestones</h2>\n  <ol>\n  {{#each milestones}}\n    <li><strong>{{name}}</strong> &mdash; {{amount}}, payable on {{trigger}}.</li>\n  {{/each}}\n  </ol>\n\n  <h2>7. Acceptance</h2>\n  <p>Client will review each deliverable within five business days of delivery and either accept it or provide written notice of the specific deficiencies. A deliverable not rejected within that period is accepted.</p>\n\n  <h2>8. Change Control</h2>\n  <p>Any change to scope, deliverables, schedule or fees takes effect only through a change order signed by both Parties.</p>\n<h2>Execution</h2>\n  <p>IN WITNESS WHEREOF, the parties have executed this SOW as of the Effective Date.</p>\n  <table class=\"signature-blocks\">\n    <tr>\n      <td>\n        <p class=\"party\">{{partyA.name}}</p>\n        <p>By: ______________________________</p>\n        <p>Name: ______________________________</p>\n        <p>Title: ______________________________</p>\n        <p>Date: ______________________________</p>\n      </td>\n      <td>\n        <p class=\"party\">{{partyB.name}}</p>\n        <p>By: ______________________________</p>\n        <p>Name: ______________________________</p>\n        <p>Title: ______________________________</p>\n        <p>Date: ______________________________</p>\n      </td>\n    </tr>\n  </table>\n<p class=\"notice\">Generated from the Propper starter pack. Review with counsel before use.</p>"
+  },
+  "signTemplate": {
+    "name": "Statement of Work (Signing)",
+    "description": "Signing template for Statement of Work. Attach the generated document, then add the roles and fields below.",
+    "type": "PARALLEL"
+  },
+  "roles": [
+    {
+      "role": "Client Signer",
+      "order": 0
+    },
+    {
+      "role": "Supplier Signer",
+      "order": 1
+    }
+  ],
+  "signatureAnchors": [
+    {
+      "role": "Client Signer",
+      "anchorString": "By:",
+      "occurrence": 1,
+      "fields": [
+        "SIGNATURE",
+        "AUTO_FILL_NAME",
+        "AUTO_FILL_TITLE",
+        "AUTO_FILL_DATE"
+      ]
+    },
+    {
+      "role": "Supplier Signer",
+      "anchorString": "By:",
+      "occurrence": 2,
+      "fields": [
+        "SIGNATURE",
+        "AUTO_FILL_NAME",
+        "AUTO_FILL_TITLE",
+        "AUTO_FILL_DATE"
+      ]
+    }
+  ]
+}

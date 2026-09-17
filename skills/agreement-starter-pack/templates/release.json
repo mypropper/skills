@@ -1,0 +1,154 @@
+{
+  "genTemplate": {
+    "name": "Mutual Release and Settlement Agreement",
+    "description": "Settles a dispute between two parties with a payment and mutual release of claims.",
+    "templateType": "contract",
+    "generationKind": "HTML_MDX",
+    "cssStyles": "body{font-family:Georgia,'Times New Roman',serif;font-size:11pt;line-height:1.5;color:#111}\nh1{font-size:15pt;text-align:center;text-transform:uppercase;letter-spacing:.04em;margin-bottom:1.5em}\nh2{font-size:11pt;text-transform:uppercase;letter-spacing:.03em;margin-top:1.6em;margin-bottom:.4em}\np{margin:.6em 0}\nol{margin:.4em 0 .4em 1.2em}\ntable.signature-blocks{width:100%;margin-top:2em;border-collapse:collapse}\ntable.signature-blocks td{width:50%;vertical-align:top;padding-right:2em}\np.party{font-weight:bold;text-transform:uppercase;margin-bottom:1.6em}\n.notice{margin-top:2em;font-size:9pt;color:#555}",
+    "dataSchema": {
+      "type": "object",
+      "properties": {
+        "effectiveDate": {
+          "type": "string",
+          "description": "Date the agreement takes effect.",
+          "format": "date"
+        },
+        "governingLaw": {
+          "type": "string",
+          "description": "Governing law jurisdiction, e.g. State of Delaware."
+        },
+        "partyA": {
+          "type": "object",
+          "description": "The disclosing or contracting party listed first.",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Full legal entity name, including suffix."
+            },
+            "entityType": {
+              "type": "string",
+              "description": "Entity form, e.g. a Delaware corporation."
+            },
+            "address": {
+              "type": "string",
+              "description": "Notice address."
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "partyB": {
+          "type": "object",
+          "description": "The receiving or counterparty listed second.",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Full legal entity name, including suffix."
+            },
+            "entityType": {
+              "type": "string",
+              "description": "Entity form, e.g. a Delaware corporation."
+            },
+            "address": {
+              "type": "string",
+              "description": "Notice address."
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "disputeDescription": {
+          "type": "string",
+          "description": "Short factual description of the dispute being settled."
+        },
+        "settlementAmount": {
+          "type": "string",
+          "description": "Amount payable in settlement, e.g. $25,000."
+        },
+        "payingParty": {
+          "type": "string",
+          "description": "Which party pays, e.g. Party A."
+        },
+        "paymentDueDays": {
+          "type": "integer",
+          "description": "Days after the Effective Date by which payment is due."
+        },
+        "paymentMethod": {
+          "type": "string",
+          "description": "How payment is made, e.g. wire transfer to an account designated in writing."
+        },
+        "includesConfidentiality": {
+          "type": "boolean",
+          "description": "True to keep the terms confidential."
+        },
+        "includesNonDisparagement": {
+          "type": "boolean",
+          "description": "True to include mutual non-disparagement."
+        },
+        "includes1542": {
+          "type": "boolean",
+          "description": "True to include a California Civil Code section 1542 waiver."
+        }
+      },
+      "required": [
+        "effectiveDate",
+        "partyA",
+        "partyB",
+        "disputeDescription",
+        "settlementAmount",
+        "payingParty"
+      ],
+      "additionalProperties": false
+    },
+    "defaultData": {
+      "governingLaw": "State of Delaware",
+      "paymentDueDays": 14,
+      "paymentMethod": "wire transfer to an account the receiving Party designates in writing",
+      "includesConfidentiality": true,
+      "includesNonDisparagement": true,
+      "includes1542": true
+    },
+    "templateContent": "<h1>MUTUAL RELEASE AND SETTLEMENT AGREEMENT</h1>\n<p>This Mutual Release and Settlement Agreement (the &ldquo;Agreement&rdquo;) is entered into as of {{effectiveDate}} (the &ldquo;Effective Date&rdquo;) by and between {{partyA.name}}, {{partyA.entityType}} (&ldquo;Party A&rdquo;), and {{partyB.name}}, {{partyB.entityType}} (&ldquo;Party B&rdquo;). Party A and Party B are each a &ldquo;Party&rdquo; and together the &ldquo;Parties.&rdquo;</p>\n  <h2>1. Background</h2>\n  <p>A dispute has arisen between the Parties concerning {{disputeDescription}} (the &ldquo;Dispute&rdquo;). The Parties wish to resolve the Dispute fully and finally without further cost or proceedings, and without any admission of liability.</p>\n\n  <h2>2. No Admission</h2>\n  <p>This Agreement is a compromise of disputed claims. Nothing in it is, or may be treated as, an admission of liability, wrongdoing or the validity of any claim or defence by either Party.</p>\n\n  <h2>3. Settlement Payment</h2>\n  <p>{{payingParty}} will pay {{settlementAmount}} within {{paymentDueDays}} days of the Effective Date by {{paymentMethod}}. Payment is the entire consideration for the releases in Section 4.</p>\n\n  <h2>4. Mutual Release</h2>\n  <p>On receipt of the settlement payment, each Party, on behalf of itself and its officers, directors, employees, agents, affiliates, successors and assigns, releases the other and its officers, directors, employees, agents, affiliates, successors and assigns from all claims, demands, liabilities, damages and causes of action, known or unknown, in contract, tort, statute or equity, arising out of or relating to the Dispute or to any matter occurring before the Effective Date.</p>\n\n  <h2>5. Unknown Claims</h2>\n  <p>Each Party understands that this release covers claims it does not currently know of or suspect, and that it may later discover facts different from or in addition to those it now believes to be true. Each Party accepts that risk and intends the release to remain fully effective regardless. Where California law applies, each Party expressly waives California Civil Code section 1542, which provides that a general release does not extend to claims the creditor does not know of or suspect to exist in its favour at the time of executing the release and that, if known, would have materially affected its settlement.</p>\n\n  <h2>6. Carve-Outs</h2>\n  <p>This release does not cover any obligation created by this Agreement, any claim that cannot lawfully be released, or any claim arising from conduct occurring after the Effective Date.</p>\n\n  <h2>7. Dismissal of Proceedings</h2>\n  <p>Within five business days of the settlement payment clearing, the Parties will take all steps necessary to dismiss any pending proceeding relating to the Dispute with prejudice, each bearing its own costs and fees.</p>\n\n  <h2>8. Confidentiality</h2>\n  <p>The Parties will keep the existence and terms of this Agreement confidential, except as required by law, regulation or court order, and except for disclosure to their professional advisers, insurers and auditors on a confidential basis. Either Party may state that the matter has been resolved.</p>\n\n  <h2>9. Non-Disparagement</h2>\n  <p>Neither Party will make any statement, public or private, that disparages the other or its products, services, officers or employees. Nothing in this section restricts truthful testimony or a report to a regulator.</p>\n\n  <h2>10. Advice of Counsel</h2>\n  <p>Each Party has had the opportunity to obtain independent legal advice on this Agreement, enters into it voluntarily, and is not relying on any representation not set out in it.</p>\n\n  <h2>11. Authority</h2>\n  <p>Each signatory represents that they are authorised to sign this Agreement on behalf of the Party for which they sign, and that the claims released have not been assigned to any third party.</p>\n\n  <h2>Governing Law</h2>\n  <p>This Agreement is governed by the laws of {{governingLaw}}, without regard to its conflict-of-laws rules.</p>\n\n  <h2>Entire Agreement</h2>\n  <p>This Agreement is the entire agreement between the Parties on its subject matter and supersedes all prior discussions. It may be amended only in a writing signed by both Parties. It may be executed in counterparts and by electronic signature, each of which is an original.</p>\n<h2>Execution</h2>\n  <p>IN WITNESS WHEREOF, the parties have executed this Agreement as of the Effective Date.</p>\n  <table class=\"signature-blocks\">\n    <tr>\n      <td>\n        <p class=\"party\">{{partyA.name}}</p>\n        <p>By: ______________________________</p>\n        <p>Name: ______________________________</p>\n        <p>Title: ______________________________</p>\n        <p>Date: ______________________________</p>\n      </td>\n      <td>\n        <p class=\"party\">{{partyB.name}}</p>\n        <p>By: ______________________________</p>\n        <p>Name: ______________________________</p>\n        <p>Title: ______________________________</p>\n        <p>Date: ______________________________</p>\n      </td>\n    </tr>\n  </table>\n<p class=\"notice\">Generated from the Propper starter pack. Review with counsel before use.</p>"
+  },
+  "signTemplate": {
+    "name": "Mutual Release and Settlement Agreement (Signing)",
+    "description": "Signing template for Mutual Release and Settlement Agreement. Attach the generated document, then add the roles and fields below.",
+    "type": "PARALLEL"
+  },
+  "roles": [
+    {
+      "role": "Party A Signer",
+      "order": 0
+    },
+    {
+      "role": "Party B Signer",
+      "order": 1
+    }
+  ],
+  "signatureAnchors": [
+    {
+      "role": "Party A Signer",
+      "anchorString": "By:",
+      "occurrence": 1,
+      "fields": [
+        "SIGNATURE",
+        "AUTO_FILL_NAME",
+        "AUTO_FILL_TITLE",
+        "AUTO_FILL_DATE"
+      ]
+    },
+    {
+      "role": "Party B Signer",
+      "anchorString": "By:",
+      "occurrence": 2,
+      "fields": [
+        "SIGNATURE",
+        "AUTO_FILL_NAME",
+        "AUTO_FILL_TITLE",
+        "AUTO_FILL_DATE"
+      ]
+    }
+  ]
+}

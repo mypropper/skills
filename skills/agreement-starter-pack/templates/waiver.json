@@ -1,0 +1,153 @@
+{
+  "genTemplate": {
+    "name": "Waiver and Assumption of Risk",
+    "description": "Participant waiver acknowledging risks of an activity and releasing the organiser from claims arising from it.",
+    "templateType": "waiver",
+    "generationKind": "HTML_MDX",
+    "cssStyles": "body{font-family:Georgia,'Times New Roman',serif;font-size:11pt;line-height:1.5;color:#111}\nh1{font-size:15pt;text-align:center;text-transform:uppercase;letter-spacing:.04em;margin-bottom:1.5em}\nh2{font-size:11pt;text-transform:uppercase;letter-spacing:.03em;margin-top:1.6em;margin-bottom:.4em}\np{margin:.6em 0}\nol{margin:.4em 0 .4em 1.2em}\ntable.signature-blocks{width:100%;margin-top:2em;border-collapse:collapse}\ntable.signature-blocks td{width:50%;vertical-align:top;padding-right:2em}\np.party{font-weight:bold;text-transform:uppercase;margin-bottom:1.6em}\n.notice{margin-top:2em;font-size:9pt;color:#555}",
+    "dataSchema": {
+      "type": "object",
+      "properties": {
+        "effectiveDate": {
+          "type": "string",
+          "description": "Date the waiver is signed.",
+          "format": "date"
+        },
+        "governingLaw": {
+          "type": "string",
+          "description": "Governing law jurisdiction."
+        },
+        "partyA": {
+          "type": "object",
+          "description": "The organisation running the activity.",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Organisation legal name."
+            },
+            "entityType": {
+              "type": "string",
+              "description": "Entity form."
+            },
+            "address": {
+              "type": "string",
+              "description": "Organisation address."
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "partyB": {
+          "type": "object",
+          "description": "The participant.",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Participant full name."
+            },
+            "entityType": {
+              "type": "string",
+              "description": "Leave blank for an individual."
+            },
+            "address": {
+              "type": "string",
+              "description": "Participant address."
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "activity": {
+          "type": "string",
+          "description": "The activity the participant is taking part in."
+        },
+        "activityDate": {
+          "type": "string",
+          "description": "Date or date range of the activity.",
+          "format": "date"
+        },
+        "location": {
+          "type": "string",
+          "description": "Where the activity takes place."
+        },
+        "risks": {
+          "type": "array",
+          "description": "Specific known risks of the activity.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "emergencyContactName": {
+          "type": "string",
+          "description": "Emergency contact name."
+        },
+        "emergencyContactPhone": {
+          "type": "string",
+          "description": "Emergency contact phone."
+        },
+        "isMinor": {
+          "type": "boolean",
+          "description": "True when the participant is under 18 and a guardian must sign."
+        }
+      },
+      "required": [
+        "effectiveDate",
+        "partyA",
+        "partyB",
+        "activity"
+      ],
+      "additionalProperties": false
+    },
+    "defaultData": {
+      "governingLaw": "State of Delaware",
+      "isMinor": false,
+      "risks": [
+        "physical injury from falls, collisions or equipment failure",
+        "exposure to weather and environmental conditions",
+        "delay in reaching emergency medical care",
+        "loss of or damage to personal property"
+      ]
+    },
+    "templateContent": "<h1>WAIVER AND ASSUMPTION OF RISK</h1>\n<p>I, {{partyB.name}}, wish to take part in {{activity}} (the &ldquo;Activity&rdquo;) organised by {{partyA.name}} (the &ldquo;Organiser&rdquo;) on {{activityDate}} at {{location}}. In exchange for being permitted to take part, I agree to the following.</p>\n\n  <h2>1. Assumption of Risk</h2>\n  <p>I understand that the Activity involves risks of injury, illness, property damage and, in some circumstances, death. Those risks include:</p>\n  <ol>\n  {{#each risks}}\n    <li>{{this}}</li>\n  {{/each}}\n  </ol>\n  <p>I understand this list is not exhaustive and that other risks, known and unknown, exist. I knowingly and voluntarily assume all such risks, whether caused by the Activity itself, the conduct of other participants, the condition of the premises, or the ordinary negligence of the Organiser.</p>\n\n  <h2>2. Release</h2>\n  <p>To the fullest extent permitted by law, I release the Organiser and its officers, employees, volunteers and agents from all claims, demands and causes of action arising out of my participation in the Activity, including those arising from ordinary negligence. This release does not extend to gross negligence, recklessness, wilful misconduct, or any liability that cannot lawfully be released.</p>\n\n  <h2>3. Fitness to Participate</h2>\n  <p>I confirm that I am physically fit to take part, that I have disclosed any condition that could affect my safety or that of others, and that I will follow the Organiser&rsquo;s rules and the reasonable instructions of its staff.</p>\n\n  <h2>4. Medical Treatment</h2>\n  <p>I authorise the Organiser to arrange emergency medical treatment if I am unable to consent, and I am responsible for the cost of that treatment. My emergency contact is {{emergencyContactName}}, {{emergencyContactPhone}}.</p>\n\n  <h2>5. Media</h2>\n  <p>I consent to the Organiser photographing or recording the Activity and using my image in connection with it, unless I notify the Organiser in writing that I withhold that consent.</p>\n\n  <h2>6. Acknowledgement</h2>\n  <p>I have read this document in full. I understand that it is a release of legal rights and that I sign it voluntarily. I understand I did not have to sign it and could have declined to take part. It is governed by the laws of {{governingLaw}}, and if any part of it is held unenforceable the rest remains in force.</p>\n\n  <h2>7. Participants Under 18</h2>\n  <p>Where the participant is under 18, the parent or legal guardian signs on their behalf, agrees to these terms personally and on the participant&rsquo;s behalf, and confirms they have authority to do so.</p>\n<h2>Execution</h2>\n  <p>IN WITNESS WHEREOF, the parties have executed this Waiver as of the Effective Date.</p>\n  <table class=\"signature-blocks\">\n    <tr>\n      <td>\n        <p class=\"party\">{{partyA.name}}</p>\n        <p>By: ______________________________</p>\n        <p>Name: ______________________________</p>\n        <p>Title: ______________________________</p>\n        <p>Date: ______________________________</p>\n      </td>\n      <td>\n        <p class=\"party\">{{partyB.name}}</p>\n        <p>By: ______________________________</p>\n        <p>Name: ______________________________</p>\n        <p>Title: ______________________________</p>\n        <p>Date: ______________________________</p>\n      </td>\n    </tr>\n  </table>\n<p class=\"notice\">Generated from the Propper starter pack. Review with counsel before use.</p>"
+  },
+  "signTemplate": {
+    "name": "Waiver and Assumption of Risk (Signing)",
+    "description": "Signing template for Waiver and Assumption of Risk. Attach the generated document, then add the roles and fields below.",
+    "type": "SEQUENTIAL"
+  },
+  "roles": [
+    {
+      "role": "Participant",
+      "order": 0
+    },
+    {
+      "role": "Organiser Representative",
+      "order": 1
+    }
+  ],
+  "signatureAnchors": [
+    {
+      "role": "Participant",
+      "anchorString": "By:",
+      "occurrence": 1,
+      "fields": [
+        "SIGNATURE",
+        "AUTO_FILL_NAME",
+        "AUTO_FILL_DATE"
+      ]
+    },
+    {
+      "role": "Organiser Representative",
+      "anchorString": "By:",
+      "occurrence": 2,
+      "fields": [
+        "SIGNATURE",
+        "AUTO_FILL_NAME",
+        "AUTO_FILL_TITLE",
+        "AUTO_FILL_DATE"
+      ]
+    }
+  ]
+}
