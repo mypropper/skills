@@ -33,6 +33,15 @@ for signature, use `send-for-signature`.
 Read the template's declared schema and default data before touching the user's values.
 Never infer field names from the document text.
 
+**When there is no template to work from** — Propper is not connected, or the organization
+has none — say so and stop. Do not write the document freehand as a stand-in.
+
+A drafted document full of bracketed placeholders looks like the deliverable and is not.
+It carries none of the organization's approved wording, and the values the user did supply
+end up embedded in text nobody signed off. Offer the two real paths instead: connect
+Propper so the template can be read, or use `build-gen-template` if the user has a source
+document to turn into one.
+
 ### 3. Map the data onto the schema
 
 Keys must match the schema. Work through it field by field:
@@ -135,3 +144,8 @@ fail. Confirm before it, per `agreement-workflows`, never after.
 Filling a template is not reviewing what it says. Do not tell the user the generated
 document is correct, complete or safe to send. If they ask, run `signature-ready-check`
 and give them what it found.
+
+The same applies to the values being merged. Do not comment on whether a salary, fee,
+discount, start date or deadline is appropriate, competitive, generous or tight. Merge
+what was given, name what is missing, and stop there — the user did not ask for a view on
+their own numbers.
