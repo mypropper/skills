@@ -128,7 +128,7 @@ FAIL if any of:
 | `.claude-plugin/plugin.json` | Plugin manifest |
 | `.claude-plugin/marketplace.json` | Marketplace manifest |
 | `.mcp.json` | Hosted MCP server registration |
-| `skills/` | The seven published skills |
+| `skills/` | The thirteen published skills |
 | `evals/` | Eval suite |
 | `scripts/check-repo.mjs` | Structural checks, run by CI |
 | `AGENTS.md` | Entry point for agents that read AGENTS.md |

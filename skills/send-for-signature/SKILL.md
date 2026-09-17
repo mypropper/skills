@@ -24,7 +24,7 @@ confirmation before anything is emailed.
 |---|---|
 | A file path | Read it. Confirm it is PDF or DOCX; those are the two accepted types |
 | A named template | `list_templates` with `search`, then `get_template` to read its roles |
-| Content to generate | `list_gen_templates`, then the generation path below |
+| Content to generate | `generate-document` produces it from a template, then return here |
 | Nothing concrete | Ask which document. Do not invent one |
 
 If the document is unsigned-off or looks like a draft, run `signature-ready-check` first
@@ -108,6 +108,10 @@ This creates, merges, and sends in one irreversible call. Confirm before it, not
 Get the template id from `list_gen_templates`. Preview the merge with
 `preview_gen_template` when the data is unfamiliar, so the user sees the wording before it
 reaches a counterparty.
+
+The linked Sign template only exists on templates brought in with
+`import_gen_template_from_source`. A template built with `build-gen-template` has no link:
+generate it with `generate-document`, then send the result through the staged path above.
 
 ## Create-and-send in one call
 
