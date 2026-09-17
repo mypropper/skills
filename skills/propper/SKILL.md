@@ -27,6 +27,8 @@ OAuth flow in their host, then retry. See [references/auth.md](references/auth.m
 guess at Propper state or fabricate agreement data. Say the Propper MCP server is not
 connected, give the one-line setup from [references/auth.md](references/auth.md), and
 offer the work that needs no account: `signature-ready-check` to pre-flight a document,
+`compare-contract-versions` to diff two drafts, `extract-contract-dates` to pull deadlines
+out of a local file, `embed-signing-in-your-app` for integration work,
 `migrate-from-docusign` to audit a DocuSign export, `agreement-starter-pack` to draft
 template content locally.
 

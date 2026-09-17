@@ -1,7 +1,7 @@
 {
   "name": "propper",
   "description": "Create, send, and track agreements for e-signature — generate documents from templates, place signature fields, route for signing, and monitor status.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": {
     "name": "PropperDocs, Inc.",
     "email": "support@propper.ai",

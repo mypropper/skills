@@ -6,10 +6,11 @@ Supports **Claude Code**, **Codex**, **Cursor**, **OpenCode**, and [75 more](#ot
 
 Describe what you need signed and by whom. Propper generates the document from a template,
 places the signature fields, routes it to the right people in the right order, and tracks
-it to completion. Seven skills cover the whole path from an unsigned draft to a completed
-agreement.
+it to completion. Thirteen skills cover the whole path from an unsigned draft to a
+completed agreement — and from a template you keep rewriting to signing built into your
+own product.
 
-Three of them work before you have a Propper account at all.
+Six of them work before you have a Propper account at all.
 
 ---
 
@@ -71,9 +72,10 @@ Production is the only endpoint.
 
 ### Without the tools
 
-`signature-ready-check`, the audit half of `migrate-from-docusign`, and drafting from
-`agreement-starter-pack` call no Propper tools at all. Install the skills and use those
-today; connect an account when you want to actually send something.
+`signature-ready-check`, `compare-contract-versions`, `extract-contract-dates` reading
+local files, `embed-signing-in-your-app`, the audit half of `migrate-from-docusign`, and
+drafting from `agreement-starter-pack` call no Propper tools at all. Install the skills and
+use those today; connect an account when you want to actually send something.
 
 ---
 
@@ -83,10 +85,16 @@ today; connect an account when you want to actually send something.
 |---|---|---|
 | **propper** | Foundation. Authentication, tool routing, the agreement status model, and scope and permission error triage. Loads on any Propper task | `who am I in Propper?` |
 | **send-for-signature** | Document to signatures requested, end to end — confirm the signers and order, place the fields, send | `send this NDA to jane@acme.com for signature` |
+| **generate-document** | Merges data into a template and produces the document — reads the schema, previews the merge, generates, and handles a list of rows | `run the offer letter for our new hire off the standard one` |
+| **build-gen-template** | Turns a document you keep rewriting into a reusable template: merge fields, a data schema, and embedded signature anchors | `I retype this contract every month — make it reusable` |
 | **place-signature-fields** | Reads a document, finds the signature, initial and date blocks, and emits correctly positioned fields | `this PDF has signature lines but no fields — fix it` |
+| **track-agreements** | Where everything stands after it goes out — who has signed, what is stalled, what is outstanding, voiding, retrieving the signed copy | `what's still sitting out there unsigned?` |
 | **migrate-from-docusign** | Audits a DocuSign export and reports exactly what carries over and what needs rebuilding, then imports it | `what would carry over from these DocuSign templates?` |
 | **signature-ready-check** | Pre-flights a contract: blanks, entity-name mismatches, missing exhibits, absent signature blocks, wrong dates | `check this contract before I send it` |
+| **compare-contract-versions** | Diffs two versions clause by clause — changed amounts and dates, added and removed clauses, renumbering, broken cross-references | `their counsel sent this back — what did they change?` |
+| **extract-contract-dates** | Turns durations into dates: renewal, the notice deadline before it, termination rights, cure periods, milestones | `when does this renew, and when do I have to tell them?` |
 | **agreement-starter-pack** | Installs nine ready agreement templates — NDAs, contractor, consulting, SOW, MSA, offer letter, waiver, release | `set me up with a standard mutual NDA` |
+| **embed-signing-in-your-app** | Building signing into a product: OAuth, the create-and-send sequence, embedded ceremonies, verified webhooks | `let our customers sign in our app, not by email` |
 | **agreement-workflows** | Shared definitions the other skills build on: recipient roles, confirmation wording, the not-legal-advice boundary | — |
 
 ---
@@ -124,8 +132,10 @@ Scopes requested for ordinary agreement work:
 | `users:read` | Read organization members and roles |
 | `locker:read` | Read documents, extracted risks and settings in Locker |
 
-The starter pack additionally needs `docgen:read` and `docgen:write` to create and
-generate from document-generation templates. Full per-tool mapping in
+The starter pack and the generation skills additionally need `docgen:read` and
+`docgen:write`. Previewing a template needs `docgen:preview`, which is a standalone scope
+that `docgen:read`, `docgen:write` and `docgen:admin` do **not** imply. Full per-tool
+mapping in
 [skills/propper/references/scopes.md](skills/propper/references/scopes.md).
 
 ---

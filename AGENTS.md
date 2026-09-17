@@ -31,6 +31,12 @@ needed.
 | `skills/migrate-from-docusign` | Auditing or importing a DocuSign export |
 | `skills/signature-ready-check` | Pre-flighting a contract before it goes out. Needs no Propper account |
 | `skills/agreement-starter-pack` | Installing or using the nine bundled agreement templates |
+| `skills/generate-document` | Merging data into a generation template and producing the document |
+| `skills/build-gen-template` | Turning a document that gets rewritten each time into a reusable template |
+| `skills/track-agreements` | Where an agreement stands after it was sent, and what can be done about it |
+| `skills/compare-contract-versions` | Diffing two versions of an agreement. Needs no Propper account |
+| `skills/extract-contract-dates` | Renewal, notice and termination deadlines as dates. Needs no account for local files |
+| `skills/embed-signing-in-your-app` | Building signing into a product against the REST API. Calls no Propper tools |
 
 ## Tools
 
@@ -61,9 +67,11 @@ before anything else.
 
 ## Working without an account
 
-Three skills deliver value with no Propper account and no MCP server connected:
-`signature-ready-check`, `migrate-from-docusign` (the audit half) and
-`agreement-starter-pack` (drafting from the bundled files). Run them directly.
+Six skills deliver value with no Propper account and no MCP server connected:
+`signature-ready-check`, `compare-contract-versions`, `extract-contract-dates` (reading
+local files), `embed-signing-in-your-app` (integration code, no tools at all),
+`migrate-from-docusign` (the audit half) and `agreement-starter-pack` (drafting from the
+bundled files). Run them directly.
 
 ## Changing anything in this repo
 
