@@ -16,19 +16,32 @@ A recipient is a person who receives the agreement by email. Each carries:
 |---|---|
 | `name` | Full legal name as it should appear on the executed document |
 | `email` | Where the signing link goes. Wrong here means the agreement goes to a stranger |
-| `role` | Free-form label, for example `Signer`, `Counterparty`, `Witness`, `CC`. Not an enum |
+| `role` | A fixed enum, not a free-form label. See the values below; any other value is rejected |
 | `order` | 0-based position, honoured only when the agreement `type` is `SEQUENTIAL` |
 
-On template-based creation the field is `roleName`, and it must match a role already
-defined on the template. Read the template with `get_template` rather than guessing.
+`role` accepts exactly these values, uppercase:
+
+`SIGNER` · `CARBON_COPY` · `CERTIFIED_DELIVERY` · `IN_PERSON_SIGNER` · `AGENT` · `EDITOR` ·
+`WITNESS` · `NOTARY` · `INTERMEDIARY` · `APPROVER` · `VIEWER`
+
+There is no `Counterparty` and no `CC`. A counterparty signer is a `SIGNER`; a copy
+recipient is `CARBON_COPY`. Mixed case is normalised (`Signer` becomes `SIGNER`). Describe
+a party's function in `name`, not in `role`.
 
 Roles in common use:
 
-- **Signer** — applies a signature. Needs at least one `SIGNATURE` field.
-- **Counterparty signer** — the other side's signer. Same field requirement.
-- **Witness** — signs to attest, usually after the principal signer. Implies `SEQUENTIAL`.
-- **Approver** — reviews internally before the counterparty sees it. Order 0.
-- **CC** — receives the completed document, signs nothing. Assign no signature field.
+- **`SIGNER`** — applies a signature. Needs at least one `SIGNATURE` field. Use this for
+  both your own signer and the counterparty's; they are distinguished by `order` and
+  `name`, not by role.
+- **`WITNESS`** — signs to attest, usually after the principal signer. Implies `SEQUENTIAL`.
+- **`APPROVER`** — reviews internally before the counterparty sees it. Order 0.
+- **`CARBON_COPY`** — receives the completed document, signs nothing. Assign no signature
+  field. A `CARBON_COPY` cannot be the only recipient; the server rejects that.
+
+On template-based creation the field is `roleName`, which is a free-form label that must
+match a role already defined on the template — that is a different field from `role` and
+is not constrained to the enum above. Read the template with `get_template` rather than
+guessing.
 
 ## Signing order
 

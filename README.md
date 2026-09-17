@@ -203,6 +203,9 @@ claude --plugin-dir .                # load the plugin from a checkout
 same ground lives in [`.agents/skills/`](.agents/skills/contribute-propper-skill/SKILL.md),
 with `.claude/skills` symlinked to it — open this repo in any agent and it loads.
 
+Repo-wide agent rules live in [`.agents/rules/`](.agents/rules/public-repo.md), with
+`.claude/rules` symlinked to it.
+
 Eval cases live in [evals/](evals/), one directory per case with a `prompt.md` and
 `graders/*.md`. Each case pairs a `skill-fired` grader, which checks the right skill
 triggered, with a `criteria` grader written as explicit PASS and FAIL conditions.

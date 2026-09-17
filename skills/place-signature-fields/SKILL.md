@@ -49,7 +49,8 @@ unlabelled, ask rather than assume.
 
 Give every signer at least one `SIGNATURE`. Add `DATE` or `AUTO_FILL_DATE` where a date
 line sits beside it, `AUTO_FILL_NAME` and `AUTO_FILL_TITLE` where `Name:` and `Title:`
-lines follow, `INITIAL` on each page that carries an initials line. Assign nothing to a CC.
+lines follow, `INITIAL` on each page that carries an initials line. Assign nothing to a
+`CARBON_COPY` recipient.
 
 ### 4. Build the annotations
 
@@ -87,7 +88,22 @@ Coordinate form:
 ```
 
 Default sizes in points: signature 200 × 44, initial 48 × 32, date 96 × 24, text 180 × 24,
-checkbox 16 × 16.
+checkbox 16 × 16. Send these explicitly. An anchor-form field carries a placeholder `rect`
+until its anchor resolves at render time, so set the size you want rather than expecting a
+default to be filled in.
+
+**Sit the field on the rule, not above it.** A field's `rect.y` is its *top* edge, so
+placing `y` at the label's own y floats the whole box above the printed line and the
+document looks unsigned-on. Align the field's **bottom** to the rule instead:
+
+```
+y = ruleTop - fieldHeight + 4
+```
+
+where `ruleTop` is the y of the `By:` / `Name:` / `Date:` line from the text extraction.
+For a 34pt signature box on a rule at `y = 170`, that is `y = 140`, not `y = 170`. Keep
+signature boxes around 32–38pt tall rather than the full 44 when the block's lines are
+24pt apart, or the field will collide with the `Name:` line beneath it.
 
 ### 5. Apply
 
@@ -95,10 +111,14 @@ checkbox 16 × 16.
 add_annotations { id, annotations: [ ... ] }
 ```
 
-`add_annotations` **replaces** every annotation on the agreement and only works while the
-status is `CREATED`. Send the complete set for every recipient in one call. To add a
-single field to a draft that already has fields, read the existing set first and resend it
-whole.
+`add_annotations` **replaces** every annotation on the agreement. Send the complete set
+for every recipient in one call, and keep that list — no tool reads annotations back, so
+an incomplete resend cannot be reconstructed.
+
+Only call it while the status is `CREATED`. Check the status before every call: because it
+replaces rather than merges, running it against an agreement that has already gone out
+would leave recipients with a different field set than the one they were sent. Correct a
+sent agreement by voiding it and rebuilding.
 
 Limit: 100 tabs per recipient.
 
@@ -109,6 +129,12 @@ signature block found in the document that no recipient was mapped to, and any r
 who ended up with no signature field. Both are blocking problems; do not send past them.
 
 ## Checks that catch the common failures
+
+Run every one of these against the extracted document before sending. An off-page
+rectangle, a `pageIndex` past the last page, or an `anchorString` that appears nowhere in
+the document all produce a field set that looks fine on creation and fails at signing time,
+so checking here is what keeps a counterparty from receiving something they cannot
+complete.
 
 - Every signer has ≥ 1 `SIGNATURE`. A signer with none receives a document they cannot
   complete.

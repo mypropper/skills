@@ -108,6 +108,15 @@ Import one template per call. On a failure, report which template failed with it
 `list_templates` and `get_template` on each import. Compare against the audit: role names
 present, field counts matching, routing order preserved. Report any drift per template.
 
+Use `get_template` for this, not `export_template`: `get_template` returns the full field
+set, while the export is a portable summary covering the common field types. See
+[references/docusign-mapping.md](references/docusign-mapping.md).
+
+Read the `warnings` array on the import response and repeat it to the user verbatim. Then
+check for the conversions that do not raise a warning — `noteTabs` arrive as text fields on
+a signer and `approveTabs` as checkboxes — and remove them, since neither is a field the
+signer should be filling.
+
 Tell the user to send one low-stakes agreement from an imported template before retiring
 the DocuSign original. Do not do that send as part of the migration.
 

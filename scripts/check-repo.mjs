@@ -176,6 +176,34 @@ if (!existsSync(claudeSkills)) {
   fail(".claude/skills", "must be a symlink to ../.agents/skills");
 }
 
+// --- agent rules and the .claude/rules symlink -------------------------------
+const agentsRules = join(ROOT, ".agents/rules");
+if (!existsSync(agentsRules)) {
+  fail(".agents/rules/", "missing — repository-wide agent rules live here");
+} else {
+  const ruleFiles = readdirSync(agentsRules, { withFileTypes: true })
+    .filter((e) => e.isFile() && e.name.endsWith(".md"));
+  if (ruleFiles.length === 0) fail(".agents/rules/", "contains no .md rule files");
+  for (const entry of ruleFiles) {
+    const fm = parseFrontmatter(read(join(agentsRules, entry.name)));
+    if (!fm) {
+      fail(`.agents/rules/${entry.name}`, "missing or malformed frontmatter");
+      continue;
+    }
+    if (fm.fields.name !== entry.name.replace(/\.md$/, "")) {
+      fail(`.agents/rules/${entry.name}`, `frontmatter name "${fm.fields.name}" must match the file name`);
+    }
+    if (!fm.fields.description) fail(`.agents/rules/${entry.name}`, "missing a description");
+  }
+}
+
+const claudeRules = join(ROOT, ".claude/rules");
+if (!existsSync(claudeRules)) {
+  fail(".claude/rules", "missing — it should symlink to ../.agents/rules so both layouts load one copy");
+} else if (resolve(dirname(claudeRules), readlinkSafe(claudeRules) ?? "") !== agentsRules) {
+  fail(".claude/rules", "must be a symlink to ../.agents/rules");
+}
+
 // --- evals -------------------------------------------------------------------
 const evalsDir = join(ROOT, "evals");
 if (existsSync(evalsDir)) {

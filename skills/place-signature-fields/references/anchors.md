@@ -13,11 +13,11 @@ either `rect` or `anchorString`.
 | `rect` | object | `{ x, y, width, height }` in PDF points, origin top-left |
 | `pageWidth` | number | Reference page width the `rect` was measured against. Default 612 |
 | `pageHeight` | number | Reference page height. Default 792 |
-| `anchorString` | string | Text to locate in the document, max 255 chars |
+| `anchorString` | string | Text to locate in the document, max 255 chars. There is no occurrence selector: an anchor matching twice places two fields |
 | `anchorXOffset` | number | Points right of the anchor. Negative moves left |
 | `anchorYOffset` | number | Points down from the anchor. Negative moves up |
 | `anchorIgnoreIfNotPresent` | boolean | Skip the field when the anchor is missing, instead of failing |
-| `anchorCaseSensitive` | boolean | Case-sensitive anchor match |
+| `anchorCaseSensitive` | boolean | Case-sensitive anchor match. **Defaults to `true`** — set it `false` to match regardless of case |
 | `anchorMatchWholeWord` | boolean | Whole-word anchor match |
 | `isRequired` | boolean | Default true |
 | `label` | string | Identification label, max 100 |
@@ -50,6 +50,11 @@ either `rect` or `anchorString`.
 
 Prefer `AUTO_FILL_DATE` over `DATE` for the date a document was executed: it cannot be
 back-dated by the signer.
+
+Types are uppercase when you *write* an annotation. Template reads (`get_template`,
+`export_template`) return the same types lowercased (`signature`, `auto_fill_date`), and
+use a 1-based `pageNumber` rather than the 0-based `pageIndex` you send. Do not copy a
+template read straight back into `add_annotations`.
 
 ## Anchors versus coordinates
 
@@ -103,6 +108,10 @@ two matches, and the second one belongs to the other recipient.
 ## Limits
 
 - 100 tabs per recipient.
-- `add_annotations` replaces the entire set and requires status `CREATED`.
+- `add_annotations` replaces the entire set and belongs to the `CREATED` stage. Check the
+  agreement's status before every call.
+- There is no occurrence selector on an anchor. To give two parties fields at their own
+  `By:` lines, use coordinates, or pick anchors unique to each party (the party name above
+  the block), not the shared label.
 - Set `anchorIgnoreIfNotPresent` only when the field is genuinely optional. On a signature
   field it turns a hard failure into a document that silently comes back unsigned.

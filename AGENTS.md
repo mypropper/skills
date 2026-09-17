@@ -101,3 +101,7 @@ claude plugin validate skills --strict
   any document a case needs is inlined in the prompt.
 - `.agents/skills/` holds skills for people working on this repo. They are not part of the
   published plugin, which ships only `skills/`.
+- `.agents/rules/` holds rules that apply to everything written in this repo, whoever or
+  whatever writes it. `.claude/rules` symlinks to it. Read them before your first commit —
+  [`public-repo.md`](.agents/rules/public-repo.md) governs how changes here are described,
+  because this repository is public.

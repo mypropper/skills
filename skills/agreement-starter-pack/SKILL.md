@@ -41,10 +41,17 @@ matching Sign template with its role slots and field placements.
 | `genTemplate` | A ready `create_gen_template` payload. Pass it through unchanged |
 | `signTemplate` | A ready `create_sign_template` payload in empty mode — `name` only, plus description and signing order |
 | `roles` | The role slots to attach once the Sign template has a document. Role names bind to `templateRoles[].roleName` at send time |
-| `signatureAnchors` | Where each role's fields go, for `place-signature-fields` |
+| `signatureAnchors` | Intended field placements per role. See the caveat below |
 
 `roles` and `signatureAnchors` are not tool parameters. Never pass them to a Propper tool
 as-is.
+
+`signatureAnchors[].occurrence` records which execution block belongs to which role. The
+annotation schema has no occurrence selector, and both roles in every pack template anchor
+on `By:`, which occurs twice — so an anchor built literally from this data would give each
+party a field at both blocks. Read `occurrence` as guidance and express it a way the schema
+supports: place by coordinates read off the rendered PDF, or anchor on the party name above
+each block, which is unique.
 
 ## Installing
 
@@ -80,51 +87,50 @@ Install one at a time. Report each result. On a failure, report it with its
 
 ### 5. Preview
 
-`preview_gen_template` with `defaultData`, so the user sees the rendered output before
-anyone uses it for real. A template that renders with visible `{{placeholders}}` has a
-schema mismatch — fix it before creating the Sign template against it.
+`preview_gen_template { id, data }` — the parameter is `id`, not `templateId`
+(`generate_gen_document` uses `templateId`; they are inconsistent).
 
-### 6. Create the Sign template
+This call needs the `docgen:preview` scope, which is consented separately from the other
+`docgen` scopes. If it is not granted, name that scope, and carry on — the install does not
+depend on the preview.
 
-Pass `signTemplate` through:
+`defaultData` in every pack template covers only the *optional* fields (governing law,
+term lengths, notice periods). It deliberately does not include the `required` ones, so a
+preview run on `defaultData` alone will always show gaps. That is expected, not a schema
+mismatch. To preview meaningfully, merge `defaultData` with real values for everything in
+`dataSchema.required`. Judge a schema mismatch only against a payload that satisfies
+`required`.
 
-```
-create_sign_template { name, description, type }
-```
+### 6. Stop at the docgen template
 
-This is the empty mode: a named, empty Sign template. Documents, role slots and fields
-attach afterwards, because the document does not exist until the docgen template renders
-one.
+The docgen template from step 4 is the installed, reusable artefact, and it is everything
+the pack needs to produce and send agreements. Documents, role slots and fields attach to a
+Sign template at creation time, through the fully-populated mode of `create_sign_template`
+(`documents` plus `recipients` plus `fields`, with base64 bytes the user supplies). Use that
+mode when the user brings their own fixed PDF.
 
-The fully-populated mode of `create_sign_template` — `documents` plus `recipients` plus
-`fields` — needs base64 document bytes up front. The pack has no fixed PDF, so it does not
-use that path. Use it only when the user brings their own file.
+The pack has no fixed PDF — each document is rendered on demand — so it does not build a
+Sign template. Send from the docgen template directly, as below.
 
-### 7. Attach the document and fields
+## Sending from the pack
 
-```
-generate_gen_document { templateId, data }     // templateId from step 4
-```
-
-Take the rendered document and attach it to the Sign template, then add the `roles` entries
-as role slots and place the fields. Use `place-signature-fields` with the
-`signatureAnchors` entries: each names an `anchorString`, which `occurrence` of it belongs
-to that role, and which field types go there. Every role gets a `SIGNATURE`.
-
-The execution block in every template renders two `By:` / `Name:` / `Title:` / `Date:`
-blocks, so `occurrence: 1` is the first role and `occurrence: 2` is the second.
-
-### 8. Link them
-
-Once the docgen template has a linked Sign template, `gen_and_send_agreement` runs
-generate-merge-send in one call:
+`gen_and_send_agreement` generates, creates and sends in one call:
 
 ```
 gen_and_send_agreement { docgenTemplateId, recipients: [{ roleName, name, email }], data }
 ```
 
-`roleName` must match the `roles[].role` values from the template file. That call emails
-recipients, so it needs the confirmation from `agreement-workflows`.
+Two things to know before using it:
+
+- **It places fields only from the template's own role definitions.** A docgen template
+  installed from this pack has none, so use this call only for a document that already
+  carries its own fields. Otherwise use the staged `send-for-signature` path: build the
+  draft, place fields with `add_annotations`, then `send_agreement`.
+- `roleName` here is a free-form label, and recipients are ordered by their position in the
+  array. The agreement is created `SEQUENTIAL`; state that in the confirmation so the user
+  knows the routing before it goes out.
+
+It emails recipients, so it needs the confirmation from `agreement-workflows`.
 
 ## Using a template
 

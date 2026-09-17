@@ -8,6 +8,10 @@ An agent skill covering all of this lives at
 `.claude/skills` symlinks to `.agents/skills`, so Claude Code, Codex, Cursor, OpenCode and
 anything else that reads `.agents/skills/` picks it up from a plain checkout with no setup.
 
+**This repository is public.** [`.agents/rules/public-repo.md`](.agents/rules/public-repo.md)
+sets out what that means for commit messages, issues, pull requests and fixtures — read it
+before your first contribution. `.claude/rules` symlinks to `.agents/rules` the same way.
+
 ## Setup
 
 You need Node 20+ and the Claude Code CLI:

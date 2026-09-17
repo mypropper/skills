@@ -75,7 +75,7 @@ call:
 add_annotations { id, annotations: [ { recipientId, type, pageIndex, ... } ] }
 ```
 
-Assign no signature field to a CC recipient.
+Assign no signature field to a `CARBON_COPY` recipient.
 
 ### 6. Confirm
 
@@ -93,8 +93,7 @@ stopped with `void_agreement`, which emails everyone again.
 
 ## Generate and send in one call
 
-When the content comes from a document-generation template that already has a linked Sign
-template, the whole flow collapses to:
+When the content comes from a document-generation template, the whole flow collapses to:
 
 ```
 gen_and_send_agreement {
@@ -105,9 +104,16 @@ gen_and_send_agreement {
 ```
 
 This creates, merges, and sends in one irreversible call. Confirm before it, not after.
-Get the template id from `list_gen_templates`. Preview the merge with
-`preview_gen_template` when the data is unfamiliar, so the user sees the wording before it
-reaches a counterparty.
+Get the template id from `list_gen_templates`. No linked Sign template is required.
+
+This path places fields from the docgen template's own role definitions, so it only suits a
+template that has them. Check `get_gen_template` first: if `roles` is empty, the agreement
+would go out with nothing for anyone to sign. Use the staged path instead — `create_agreement`,
+`add_annotations`, `send_agreement` — which lets fields be placed and checked first.
+
+Preview the merge with `preview_gen_template { id, data }` when the data is unfamiliar
+(note: `id` here, `templateId` on `generate_gen_document`). It needs the `docgen:preview`
+scope, which `docgen:read`/`write`/`admin` do not imply.
 
 The linked Sign template only exists on templates brought in with
 `import_gen_template_from_source`. A template built with `build-gen-template` has no link:
@@ -124,8 +130,9 @@ the user has confirmed.
 
 - `send_agreement` rejected — the draft has no recipient or no document. `list_recipients`
   and `list_documents`, fix, re-confirm, resend.
-- A state error on upload or annotation — the agreement is already sent and immutable.
-  Check `get_agreement_status`.
+- A state error on upload — the agreement is already sent. Check `get_agreement_status`.
+- Fields wrong after sending — `add_annotations` replaces the whole set and belongs to the
+  draft stage, so void the agreement with a reason and build a fresh draft instead.
 - Wrong recipient discovered after sending — `void_agreement` with a reason, then build a
   fresh draft. Both steps email people. Confirm both.
 - Anything else — report with the `x-request-id` and stop. Do not retry a send.
