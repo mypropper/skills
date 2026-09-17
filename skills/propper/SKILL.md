@@ -38,7 +38,8 @@ Never retry a failed `get_current_user` more than once. Two failures means repor
 
 | Goal | Tools |
 |---|---|
-| Identity, org, entitlements | `get_current_user`, `organization_get_profile`, `organization_list_members`, `organization_get_entitlements` |
+| Identity, org, entitlements | `get_current_user`, `organization_get_profile`, `organization_list_members`, `organization_get_entitlements` (needs `view: "salesforce"`) |
+| Manage members | `organization_get_member_capabilities`, `organization_get_member_settings`, `organization_update_member_settings`, `organization_update_member_role`, `organization_invite_member`, `organization_cancel_invitation`, `organization_remove_member` |
 | Find an agreement | `list_agreements`, `get_agreement`, `get_agreement_status` |
 | Build a draft | `create_agreement`, `upload_document`, `add_recipient`, `add_annotations` |
 | Edit a draft | `update_agreement`, `update_recipient`, `remove_recipient`, `remove_document`, `list_documents`, `list_recipients` |
@@ -50,11 +51,18 @@ Never retry a failed `get_current_user` more than once. Two failures means repor
 | Generate and send in one call | `gen_and_send_agreement` |
 | Import from DocuSign | `import_template`, `import_gen_template_from_source` |
 | Generated-document delivery | `list_gen_delivery_configs`, `list_gen_template_delivery_configs`, `create_gen_delivery_config`, `update_gen_delivery_config`, `delete_gen_delivery_config`, `list_gen_delivery_logs` |
-| Document repository and risk | `locker_list_documents`, `locker_get_document`, `locker_create_document`, `locker_update_document`, `locker_delete_document`, `locker_upload_document`, `locker_extract_risks`, `locker_list_risks`, `locker_get_risk`, `locker_get_risk_stats`, `locker_update_risk`, `locker_delete_risk`, `locker_get_settings`, `locker_update_settings`, `locker_get_usage` |
-| Ask a question of a document | `ask_doc_question` |
+| Document repository and risk | `locker_list_documents`, `locker_search_documents`, `locker_get_document`, `locker_create_document`, `locker_update_document`, `locker_delete_document`, `locker_upload_document`, `locker_extract_risks`, `locker_list_risks`, `locker_get_risk`, `locker_get_risk_stats`, `locker_update_risk`, `locker_delete_risk`, `locker_get_settings`, `locker_update_settings`, `locker_get_usage` |
+| Ask a question of a document | `ask_doc_question` — see the caveat below |
 
 Use only these names. If the task needs something not on this list, say so rather than
 guessing at a tool.
+
+`ask_doc_question` answers across the organization's document set, so its reply may draw on
+documents other than the one named in `agreementId`. It suits open-ended questions across a
+library, not establishing a fact about one specific document. When accuracy about a
+particular document matters — as in `signature-ready-check` — extract that document's text
+and quote it directly. If you do use the tool, read the `Sources` it returns, confirm they
+name the document you meant, and quote them.
 
 Hosts namespace MCP tools differently. Match on the bare tool name above, whatever prefix
 the host applies.
@@ -80,14 +88,24 @@ This emails recipients immediately. Confirm before using it.
 `CREATED` → `SENT` → `DELIVERED` → `IN_PROGRESS` → `COMPLETED`, with `DECLINED`,
 `VOIDED` and `EXPIRED` as terminal exits.
 
-Only `CREATED` agreements accept documents, annotations or deletion. Once an agreement
-is `SENT` it can be voided but not edited and not deleted. Full table in
-[references/status-model.md](references/status-model.md).
+Treat `CREATED` as the only status in which you add documents or annotations, or delete.
+Once an agreement is `SENT` it can be voided, but not deleted.
+
+`add_annotations` replaces the whole field set rather than merging into it, so it belongs
+to the draft stage only. Place every field before `send_agreement`, and send the complete
+set for every recipient in one call. To change fields on an agreement that has already gone
+out, `void_agreement` and build a fresh draft — that is the supported correction path.
+
+Full table in [references/status-model.md](references/status-model.md).
 
 ## Confirm before anything irreversible
 
 `send_agreement`, `create_agreement` with `status: "SENT"`, `gen_and_send_agreement`,
 `void_agreement` and `delete_agreement` either email real people or destroy data.
+
+`add_annotations` emails nobody, so it is not on that list — but because it replaces the
+whole field set rather than merging, treat any call that rewrites an existing set as
+irreversible and confirm it the same way.
 
 Before calling any of them, show the user:
 
