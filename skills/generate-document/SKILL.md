@@ -15,6 +15,22 @@ quota, and stores nothing.
 To build the template in the first place, use `build-gen-template`. To route the result
 for signature, use `send-for-signature`.
 
+## Never write the document instead
+
+If the template cannot be read — Propper is not connected, the organization has none, or
+the user cannot say which one — **stop and say so. Do not draft the document yourself.**
+
+This holds even when the request is urgent, even when the user has supplied enough facts
+to write something plausible, and even when refusing feels unhelpful. A freehand draft with
+`[PLACEHOLDER]` markers is the failure mode this skill exists to prevent: it looks like the
+deliverable, it carries none of the organization's approved wording, and the real values
+the user supplied end up embedded in text nobody has ever signed off. Handing that to
+someone who asked for "our standard letter" is worse than handing them nothing.
+
+Say which of the three is missing, and offer the real paths: connect Propper so the
+template can be read, or use `build-gen-template` if they have a source document to turn
+into one. Then stop.
+
 ## Steps
 
 ### 1. Authenticate
@@ -32,6 +48,7 @@ for signature, use `send-for-signature`.
 
 Read the template's declared schema and default data before touching the user's values.
 Never infer field names from the document text.
+
 
 ### 3. Map the data onto the schema
 
@@ -135,3 +152,8 @@ fail. Confirm before it, per `agreement-workflows`, never after.
 Filling a template is not reviewing what it says. Do not tell the user the generated
 document is correct, complete or safe to send. If they ask, run `signature-ready-check`
 and give them what it found.
+
+The same applies to the values being merged. Do not comment on whether a salary, fee,
+discount, start date or deadline is appropriate, competitive, generous or tight. Merge
+what was given, name what is missing, and stop there — the user did not ask for a view on
+their own numbers.

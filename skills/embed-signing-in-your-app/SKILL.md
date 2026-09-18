@@ -44,6 +44,9 @@ PUT  /v1/sign/agreements/{id}/annotations      place the fields (replaces the wh
 POST /v1/sign/agreements/{id}/send             dispatch
 ```
 
+**Annotations is `PUT`, not `POST`.** Three of these four calls are `POST` and the fourth
+is not; copying the pattern across produces a `405` that looks like a permissions problem.
+
 The annotations endpoint **replaces** every annotation on the agreement. Send the
 complete set for all recipients in one request; a second call with one field deletes the
 rest.
