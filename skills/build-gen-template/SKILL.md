@@ -96,7 +96,7 @@ generation time. Declare the schema.
 
 ### 8. Preview it before anyone relies on it
 
-`preview_gen_template { id, data }` with representative data, and read `diagnostics[]`.
+`preview_gen_template { id, data, output: "html" }` with representative data, and read `diagnostics[]`.
 Preview three payloads, not one:
 
 1. A realistic complete row.
@@ -105,12 +105,20 @@ Preview three payloads, not one:
 3. A row with the **longest realistic values** — a long entity name that wraps badly
    breaks a signature block.
 
-Preview needs the standalone `docgen:preview` scope, which `docgen:read` and
-`docgen:write` do not imply.
+HTML preview needs `docgen:write`. DOCX and URL previews require platform-reserved
+`docgen:preview`, unavailable to MCP clients. For DOCX, generate a PDF and retrieve it
+for review using `generate-document`; do not send it before reviewing the result.
 
 ### 9. Iterate
 
-`update_gen_template` saves a new version; earlier versions remain and can be restored.
+Call `update_gen_template` with `id` and only the properties being changed: `name`,
+`description`, `templateContent`, `cssStyles`, `dataSchema`, `defaultData`, `headerTemplate`,
+`footerTemplate`, `content`, `fields`, `engine`, `delimiters` or `changeLog`. Do not echo a
+`get_gen_template` response: `templateType`, `generationKind`, `settings`, imported-source
+metadata, version and timestamps are not update arguments. Supplying `fields` replaces
+the full field list, so preserve the fields you intend to keep. Content changes create a
+version snapshot.
+
 `clone_gen_template` branches a variant — use it for a genuinely different document, not
 for a difference that should have been a field.
 
@@ -120,10 +128,10 @@ A DocuSign Gen export imports with `import_gen_template_from_source`, which is i
 on the source template id — re-importing updates in place rather than duplicating. Use
 `migrate-from-docusign` to audit the export first.
 
-Import is also the **only** path that produces a template with a linked Sign template,
-and `gen_and_send_agreement` requires that link. A template created here generates a
-document; routing it for signature goes through `generate-document` and then
-`send-for-signature`.
+`gen_and_send_agreement` accepts native templates as well as imported ones; a linked
+Sign template is not required. Before using it, verify each signer's field bindings and
+the template's routing with `send-for-signature`. A native template with no signer fields
+needs fields added before a send, or the staged generate-and-place workflow.
 
 ## Failure handling
 
@@ -133,7 +141,7 @@ document; routing it for signature goes through `generate-document` and then
 | Diagnostics report an unresolved token | The body references a field the schema does not declare. Add it to the schema or remove it from the body |
 | Diagnostics report an unknown helper | A typo in `{{#each}}` or `{{#if}}` |
 | A generated copy has fields in odd places | Signature anchors sit inside body text. Move them to the execution block |
-| `gen_and_send_agreement` rejects the template | It has no linked Sign template. Generate, then send |
+| `TEMPLATE_HAS_NO_SIGNER_FIELDS` | At least one signer has no bound template field. Correct the complete field set, or generate and place fields on a draft before sending |
 
 ## Boundary
 

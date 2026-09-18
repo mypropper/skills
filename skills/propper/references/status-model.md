@@ -23,11 +23,9 @@ CREATED ──send──> SENT ──> DELIVERED ──> IN_PROGRESS ──> COM
 - `upload_document`, `remove_document`, `add_recipient`, `remove_recipient` and
   `delete_agreement` only work on `CREATED`. A state error from any of them means the
   agreement has already been sent.
-- Place annotations while the agreement is `CREATED`. Because `add_annotations` replaces
-  the whole set rather than merging (see below), running it against an agreement that has
-  already gone out would leave recipients with a different field set than the one they were
-  sent. Check the status before every call, and correct a sent agreement by voiding it and
-  rebuilding rather than by rewriting its fields.
+- Place annotations while the agreement is `CREATED`. Other states return
+  `AGREEMENT_NOT_EDITABLE` without changing the field set. Check the status before every
+  call; to correct an agreement in flight, confirm voiding it and building a fresh draft.
 - Drafts are deleted with `delete_agreement`. Sent agreements are cancelled with
   `void_agreement`, which requires a `reason` and notifies every recipient by email.
   Never reach for `delete_agreement` to undo a send; it will not work, and the correct

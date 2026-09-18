@@ -8,7 +8,7 @@
 | Envelope status | Agreement status (see the `propper` skill's status model) |
 | Recipient | Recipient |
 | `roleName` on a template signer | Template role, addressed as `roleName` in `templateRoles` |
-| `routingOrder` | `order`, with agreement `type: "SEQUENTIAL"` |
+| `routingOrder` | Preserved signing order; equal orders allow parallel recipients |
 | Tab | Annotation |
 | Template | Sign template |
 | DocuSign Gen template | Docgen template |
@@ -27,13 +27,16 @@
 | `radioGroupTabs` | `RADIO` | On import, the whole group becomes **one** `radio` field whose `options[]` are the radio values — not one annotation per radio. Hand-built annotations do use one per radio with a shared `groupName` |
 | `listTabs` | `DROPDOWN` | `listItems` become `options[{ label, value }]` |
 | `fullNameTabs` | `AUTO_FILL_NAME` | Direct |
-| `emailTabs` | `AUTO_FILL_EMAIL` | Direct |
+| `emailAddressTabs` | `AUTO_FILL_EMAIL` | Auto-fill from recipient email |
+| `emailTabs` / `phoneTabs` / `ssnTabs` / `zipTabs` | `TEXT` | Matching EMAIL / PHONE / SSN / ZIP validation is retained; a conversion issue notes the specialized source field type is not preserved |
 | `titleTabs` | `AUTO_FILL_TITLE` | Direct |
 | `companyTabs` | `AUTO_FILL_COMPANY` | Direct |
 | `formulaTabs` | `FORMULA` | Expression syntax differs; verify the result |
 | `signerAttachmentTabs` | `ATTACHMENT` | Direct |
-| `approveTabs` / `declineTabs` | `CHECKBOX` | `import_template` converts these to a checkbox. Review each one after import: a decline is an agreement-level outcome in Propper, not a field |
-| `noteTabs` | `TEXT` | Converted to an unlabelled text field on the signer. Static note text belongs in the document, so remove these after import rather than asking a signer to fill them |
+| `approveTabs` / `declineTabs` | `CHECKBOX` | Reports a conversion issue; checking a box does not approve or decline the agreement |
+| `noteTabs` | `TEXT` | Static value preserved, non-required and stamped on send; no signer input needed |
+| `drawTabs` | `DRAW` | Direct |
+| `firstNameTabs` / `lastNameTabs` | `TEXT` | Reports limited automatic first/last-name filling; review before use |
 | `envelopeIdTabs` | `TEXT` | Converted with a warning in the import response. Remove after import |
 | `smartSectionTabs` | — | No equivalent. Rebuild |
 | `polyLineOverlayTabs` | — | No equivalent |
@@ -83,16 +86,18 @@ Report each of these by template and tab label, never as a bare count:
 - **Connect / webhook configuration** — configured separately, not carried in the export.
 - **Branding and custom email templates** — configured on the Propper organization.
 
-## Verify with `get_template`, not `export_template`
+## Verify the saved template and its export
 
-`get_template` returns the full field set, with each field's type, label, page, geometry and
-the role it belongs to. That is what an import check needs.
+Use `get_template` to check field type, label, page, geometry and recipient binding.
+`export_template` supports all 16 Propper field types: signature, initial, text, date,
+number, checkbox, radio, dropdown, attachment, the five auto-fill types, formula and draw.
+Exports preserve role aliases and signing order. DocuSign exports map to the corresponding
+tab collections, including options, radio positions and formulas.
 
-`export_template` produces a portable summary built around the widely-supported field types
-— `signature`, `text`, `checkbox` and `dropdown` — and reports roles by their enum value
-rather than their template role name. It is well suited to moving a template between
-environments, and not suited to verifying that an import preserved everything. Use
-`get_template` for that.
+Compare a re-import with the saved template. Native type fidelity does not restore source
+semantics that changed during import: validated text exports as text, and an approval
+checkbox remains a checkbox. Review `issues[]` by code and tab label alongside any legacy
+`warnings[]` not already represented; do not duplicate mirrored messages.
 
 ## Gen template exports
 

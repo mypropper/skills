@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Structural checks for the Propper plugin repo. No dependencies.
 import { readFileSync, readdirSync, existsSync, lstatSync, readlinkSync } from "node:fs";
+import { checkTemplate } from "./template-checks.mjs";
 
 const readlinkSafe = (p) => {
   try {
@@ -48,6 +49,19 @@ for (const p of jsonFiles) {
   if (!raw.endsWith("\n")) fail(rel(p), "missing trailing newline");
   const canonical = JSON.stringify(parsed, null, 2) + "\n";
   if (raw !== canonical) fail(rel(p), "not formatted as 2-space JSON with a trailing newline");
+}
+
+// --- agreement template fields, blocks and optional section numbering --------
+const templatesDir = join(ROOT, "skills/agreement-starter-pack/templates");
+for (const file of readdirSync(templatesDir).filter((name) => name.endsWith(".json"))) {
+  const path = join(templatesDir, file);
+  let template;
+  try {
+    template = JSON.parse(read(path));
+  } catch {
+    continue; // JSON syntax errors are reported above.
+  }
+  for (const error of checkTemplate(template.genTemplate).errors) fail(rel(path), error);
 }
 
 // --- plugin.json -------------------------------------------------------------

@@ -41,6 +41,7 @@ either `rect` or `anchorString`.
 | `RADIO` | Signer | One of a `groupName` set |
 | `DROPDOWN` | Signer | One of `options` |
 | `ATTACHMENT` | Signer | A file the signer must upload |
+| `DRAW` | Signer | A freehand drawing |
 | `AUTO_FILL_NAME` | System | Recipient's name. Use on `Name:` lines |
 | `AUTO_FILL_EMAIL` | System | Recipient's email |
 | `AUTO_FILL_DATE` | System | Date of signing. Use on `Date:` lines beside a signature |
@@ -64,7 +65,9 @@ a party name. The field follows the text if the document is regenerated or repag
 Coordinates when the layout is fixed and the text is not extractable, when the anchor
 phrase repeats, or when the field belongs in whitespace with no nearby text.
 
-Never mix the two on one field. If both are present the behaviour is ambiguous.
+For an anchor field, a `rect` can supply its width and height; anchor resolution determines
+the final position. Without a `rect`, the placeholder size is 20 × 5 points, so supply the
+size you want explicitly.
 
 ## Anchor offsets
 
@@ -101,8 +104,11 @@ two matches, and the second one belongs to the other recipient.
 
 - US Letter: 612 × 792 points. A4: 595 × 842. 1 inch = 72 points.
 - Origin is the top-left corner. `y: 0` is the top of the page.
+- Use finite, nonnegative positions and positive dimensions. The full rectangle must fit:
+  `x + width <= pageWidth` and `y + height <= pageHeight`. The 0-based `pageIndex` must
+  be below the document page count; invalid pages and bounds are rejected before writes.
 - A one-inch bottom margin starts at `y: 720` on Letter.
-- Default sizes: signature 200 × 44, initial 48 × 32, date 96 × 24, text 180 × 24,
+- Suggested explicit sizes: signature 200 × 44, initial 48 × 32, date 96 × 24, text 180 × 24,
   checkbox 16 × 16.
 
 ## Limits

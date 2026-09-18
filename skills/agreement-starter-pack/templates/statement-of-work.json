@@ -24,14 +24,6 @@
             "name": {
               "type": "string",
               "description": "Full legal entity name, including suffix."
-            },
-            "entityType": {
-              "type": "string",
-              "description": "Entity form, e.g. a Delaware corporation."
-            },
-            "address": {
-              "type": "string",
-              "description": "Notice address."
             }
           },
           "required": [
@@ -45,14 +37,6 @@
             "name": {
               "type": "string",
               "description": "Full legal entity name, including suffix."
-            },
-            "entityType": {
-              "type": "string",
-              "description": "Entity form, e.g. a Delaware corporation."
-            },
-            "address": {
-              "type": "string",
-              "description": "Notice address."
             }
           },
           "required": [

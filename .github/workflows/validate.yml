@@ -24,6 +24,8 @@ jobs:
           node-version: '22'
       - name: Structural checks
         run: node scripts/check-repo.mjs
+      - name: Template checker tests
+        run: node --test scripts/template-checks.test.mjs
 
   manifests:
     name: Plugin manifests and skills

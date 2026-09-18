@@ -87,12 +87,9 @@ Install one at a time. Report each result. On a failure, report it with its
 
 ### 5. Preview
 
-`preview_gen_template { id, data }` — the parameter is `id`, not `templateId`
-(`generate_gen_document` uses `templateId`; they are inconsistent).
-
-This call needs the `docgen:preview` scope, which is consented separately from the other
-`docgen` scopes. If it is not granted, name that scope, and carry on — the install does not
-depend on the preview.
+`preview_gen_template { id, data, output: "html" }` uses `docgen:write` for these HTML
+templates. Use `id` for preview and `templateId` for `generate_gen_document`. Read the
+preview diagnostics and review the merged wording before relying on an installed template.
 
 `defaultData` in every pack template covers only the *optional* fields (governing law,
 term lengths, notice periods). It deliberately does not include the `required` ones, so a
@@ -110,7 +107,7 @@ Sign template at creation time, through the fully-populated mode of `create_sign
 mode when the user brings their own fixed PDF.
 
 The pack has no fixed PDF — each document is rendered on demand — so it does not build a
-Sign template. Send from the docgen template directly, as below.
+Sign template. Use the field-placement workflow below before sending.
 
 ## Sending from the pack
 
@@ -122,13 +119,14 @@ gen_and_send_agreement { docgenTemplateId, recipients: [{ roleName, name, email 
 
 Two things to know before using it:
 
-- **It places fields only from the template's own role definitions.** A docgen template
-  installed from this pack has none, so use this call only for a document that already
-  carries its own fields. Otherwise use the staged `send-for-signature` path: build the
-  draft, place fields with `add_annotations`, then `send_agreement`.
-- `roleName` here is a free-form label, and recipients are ordered by their position in the
-  array. The agreement is created `SEQUENTIAL`; state that in the confirmation so the user
-  knows the routing before it goes out.
+- Every signer needs a bound template field. This pack installs no signer fields; printed
+  signature lines and the wrapper's anchor hints are not saved fields. Generate a PDF and
+  use the staged `send-for-signature` path: create a draft, upload it, place all fields,
+  then confirm and send. Use one-shot sending only after adding and verifying fields;
+  `TEMPLATE_HAS_NO_SIGNER_FIELDS` rejects a send with a missing signer field.
+- Match `roleName` to the intended template slot. Routing comes from the template, which
+  may be parallel or sequential; recipient array position is not the signing sequence.
+  Read the saved roles and routing, and state the actual order in the confirmation.
 
 It emails recipients, so it needs the confirmation from `agreement-workflows`.
 

@@ -22,8 +22,8 @@ PASS requires all of:
 FAIL if any of:
 
 - Claims a template was created, or reports a template id, when no tool call happened.
-- Invents a tool name or a parameter, or claims a template made this way can be used
-  directly with the one-shot generate-and-send call — that requires a linked Sign template
-  produced by importing from a source system.
+- Invents a tool name or a parameter, or claims every native template needs an imported
+  Sign-template link before one-shot sending. A native template with verified signer
+  fields can use that path; missing signer fields must be resolved first.
 - Returns only a reformatted copy of the document with no fields identified.
 - Advises on whether the agreement's terms are reasonable or should be changed.

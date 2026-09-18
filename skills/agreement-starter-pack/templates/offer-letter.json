@@ -24,14 +24,6 @@
             "name": {
               "type": "string",
               "description": "Employer legal name."
-            },
-            "entityType": {
-              "type": "string",
-              "description": "Entity form."
-            },
-            "address": {
-              "type": "string",
-              "description": "Employer address."
             }
           },
           "required": [
@@ -45,10 +37,6 @@
             "name": {
               "type": "string",
               "description": "Candidate full name."
-            },
-            "entityType": {
-              "type": "string",
-              "description": "Leave blank for an individual."
             },
             "address": {
               "type": "string",
