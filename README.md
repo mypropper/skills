@@ -133,7 +133,7 @@ Scopes requested for ordinary agreement work:
 | `locker:read` | Read documents, extracted risks and settings in Locker |
 
 The starter pack and the generation skills additionally need `docgen:read` and
-`docgen:write`. Previewing a template needs `docgen:preview`, which is a standalone scope
+`docgen:write`. HTML previewing needs `docgen:write`. URL and DOCX previews require `docgen:preview`, which is a platform-reserved scope
 that `docgen:read`, `docgen:write` and `docgen:admin` do **not** imply. Full per-tool
 mapping in
 [skills/propper/references/scopes.md](skills/propper/references/scopes.md).
