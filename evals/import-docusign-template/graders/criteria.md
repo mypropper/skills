@@ -16,7 +16,16 @@ PASS requires all of:
   undifferentiated verdict.
 - Correctly identifies as portable: signHereTabs, dateSignedTabs, textTabs, checkboxTabs
   and listTabs.
-- Correctly flags approveTabs as having no direct equivalent and needing a rebuild.
+- Explains VendorApprove becomes a checkbox and does not implement an approval action;
+  flags it for workflow review rather than treating it as an equivalent approval.
+- Preserves ReviewInstructions note text as static, non-required content stamped on send;
+  does not remove it or require the signer to fill it.
+- Explains ContactEmail becomes text with EMAIL validation retained; the specialized source
+  field identity changes. Recognizes SiteSketch as a supported DRAW field.
+- Explains issues[] gives code/message/tabLabel, with legacy warnings[] also inspected
+  without duplicating mirrored messages. No need to invent an import response.
+- Allows export_template to check draw and other Propper field types plus role aliases;
+  also recommends get_template to inspect saved fields.
 - Correctly flags the conditional field — the ApproverNotes textTab with
   conditionalParentLabel — as show/hide logic that does not transfer.
 - Names problem items specifically, by tab label or role, rather than reporting only a

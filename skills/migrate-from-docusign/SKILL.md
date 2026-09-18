@@ -108,14 +108,20 @@ Import one template per call. On a failure, report which template failed with it
 `list_templates` and `get_template` on each import. Compare against the audit: role names
 present, field counts matching, routing order preserved. Report any drift per template.
 
-Use `get_template` for this, not `export_template`: `get_template` returns the full field
-set, while the export is a portable summary covering the common field types. See
-[references/docusign-mapping.md](references/docusign-mapping.md).
+Use `get_template` to inspect the saved fields and `export_template` for a portable
+round-trip check of field types, role aliases and routing. Exports cover all 16 Propper
+field types. Compare against the source format rather than assuming byte-identical JSON;
+see [references/docusign-mapping.md](references/docusign-mapping.md).
 
-Read the `warnings` array on the import response and repeat it to the user verbatim. Then
-check for the conversions that do not raise a warning — `noteTabs` arrive as text fields on
-a signer and `approveTabs` as checkboxes — and remove them, since neither is a field the
-signer should be filling.
+Read structured `issues[]` (`code`, `message`, `tabLabel`) and report each affected field.
+Codes distinguish `UNSUPPORTED_TAB_TYPE`, `LOSSY_VALIDATION_MAPPING` and
+`AUTOFILL_RENDERING_LIMITED`. Also read legacy `warnings[]`, retaining warnings not already
+represented by an issue; do not report mirrored messages twice.
+
+`noteTabs` preserve their static text as non-required fields stamped at send time; verify
+the text instead of removing the notes or asking the signer to fill them. Approve/decline
+tabs become checkboxes with a conversion issue: checking them does not approve or decline
+the agreement. Review the intended workflow with the user before using those fields.
 
 Tell the user to send one low-stakes agreement from an imported template before retiring
 the DocuSign original. Do not do that send as part of the migration.

@@ -20,8 +20,9 @@ The job is to turn durations into dates.
 ### 1. Read the documents
 
 From disk, or from Propper with `locker_list_documents` and `locker_get_document` when
-the user's contracts live there. `ask_doc_question` answers a targeted question about a
-stored document; `locker_extract_risks` and `locker_list_risks` surface what Propper has
+the user's contracts live there. For `ask_doc_question`, supply `agreementId` or the intended
+`documentIds` and verify its sources before quoting a deadline; never widen a failed
+agreement lookup to the whole library. `locker_extract_risks` and `locker_list_risks` surface what Propper has
 already extracted, including renewal and termination terms.
 
 ### 2. Find the anchor dates

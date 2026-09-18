@@ -67,6 +67,7 @@ Anchor form:
   "anchorString": "Authorized Signatory",
   "anchorXOffset": 0,
   "anchorYOffset": -28,
+  "rect": { "x": 0, "y": 0, "width": 200, "height": 44 },
   "isRequired": true,
   "label": "Counterparty signature"
 }
@@ -87,7 +88,7 @@ Coordinate form:
 }
 ```
 
-Default sizes in points: signature 200 × 44, initial 48 × 32, date 96 × 24, text 180 × 24,
+Suggested explicit sizes in points: signature 200 × 44, initial 48 × 32, date 96 × 24, text 180 × 24,
 checkbox 16 × 16. Send these explicitly. An anchor-form field carries a placeholder `rect`
 until its anchor resolves at render time, so set the size you want rather than expecting a
 default to be filled in.
@@ -115,10 +116,9 @@ add_annotations { id, annotations: [ ... ] }
 for every recipient in one call, and keep that list — no tool reads annotations back, so
 an incomplete resend cannot be reconstructed.
 
-Only call it while the status is `CREATED`. Check the status before every call: because it
-replaces rather than merges, running it against an agreement that has already gone out
-would leave recipients with a different field set than the one they were sent. Correct a
-sent agreement by voiding it and rebuilding.
+Only call it while the status is `CREATED`. Other states return `AGREEMENT_NOT_EDITABLE`
+without changing the fields. Check the status before every call. To correct an agreement
+in flight, confirm voiding it and building a fresh draft; confirm the replacement send too.
 
 Limit: 100 tabs per recipient.
 
@@ -130,11 +130,10 @@ who ended up with no signature field. Both are blocking problems; do not send pa
 
 ## Checks that catch the common failures
 
-Run every one of these against the extracted document before sending. An off-page
-rectangle, a `pageIndex` past the last page, or an `anchorString` that appears nowhere in
-the document all produce a field set that looks fine on creation and fails at signing time,
-so checking here is what keeps a counterparty from receiving something they cannot
-complete.
+Check every field against the extracted document before sending. Invalid page indices
+and off-page rectangles return `TAB_INVALID_PAGE` or `TAB_OUT_OF_BOUNDS` before writes.
+Also verify anchor matches and the rendered placement; passing geometry checks alone
+does not establish that a field belongs beside the intended signer.
 
 - Every signer has ≥ 1 `SIGNATURE`. A signer with none receives a document they cannot
   complete.

@@ -52,17 +52,25 @@ Never retry a failed `get_current_user` more than once. Two failures means repor
 | Import from DocuSign | `import_template`, `import_gen_template_from_source` |
 | Generated-document delivery | `list_gen_delivery_configs`, `list_gen_template_delivery_configs`, `create_gen_delivery_config`, `update_gen_delivery_config`, `delete_gen_delivery_config`, `list_gen_delivery_logs` |
 | Document repository and risk | `locker_list_documents`, `locker_search_documents`, `locker_get_document`, `locker_create_document`, `locker_update_document`, `locker_delete_document`, `locker_upload_document`, `locker_extract_risks`, `locker_list_risks`, `locker_get_risk`, `locker_get_risk_stats`, `locker_update_risk`, `locker_delete_risk`, `locker_get_settings`, `locker_update_settings`, `locker_get_usage` |
-| Ask a question of a document | `ask_doc_question` — see the caveat below |
+| Ask a question of a document | `ask_doc_question` — scope the question below |
 
 Use only these names. If the task needs something not on this list, say so rather than
 guessing at a tool.
 
-`ask_doc_question` answers across the organization's document set, so its reply may draw on
-documents other than the one named in `agreementId`. It suits open-ended questions across a
-library, not establishing a fact about one specific document. When accuracy about a
-particular document matters — as in `signature-ready-check` — extract that document's text
-and quote it directly. If you do use the tool, read the `Sources` it returns, confirm they
-name the document you meant, and quote them.
+For a question about one agreement, call `ask_doc_question { question, agreementId }`.
+For particular Locker documents, use `documentIds`. Supplying both searches their union,
+so use only the intended scope. Omit both only for an explicitly library-wide question.
+The tool requires `locker:read`. Read its `Sources`, verify the documents and quote the
+supporting text; a scoped answer still needs evidence.
+
+`AGREEMENT_NOT_IN_LOCKER` means there are no linked signed-agreement documents for it in
+this organization's Locker. The search does not widen to the library. Report that
+limitation and retrieve the agreement's own document for direct reading if available;
+never remove the id to get an answer from other agreements.
+
+Tool arguments are strict: use the registered names and supported keys, without aliases
+or copied response metadata. Preserve arbitrary merge-data keys inside `data`, where the
+template's schema determines them.
 
 Hosts namespace MCP tools differently. Match on the bare tool name above, whatever prefix
 the host applies.
@@ -122,8 +130,8 @@ covering a changed recipient list, a changed document set or a second send.
 Read [references/errors.md](references/errors.md) for the triage table. In short:
 a missing-scope error means re-consent with the scope named in
 [references/scopes.md](references/scopes.md); a state error means check the agreement's
-status before retrying; a `404` on an id you just created means you are in the wrong
-organization.
+status before retrying. Read a `404` error code before diagnosing it: an unavailable
+Locker document is different from a missing agreement or a wrong organization.
 
 Every Propper API response carries an `x-request-id`. Quote it when reporting a failure.
 

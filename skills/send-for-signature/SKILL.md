@@ -106,18 +106,22 @@ gen_and_send_agreement {
 This creates, merges, and sends in one irreversible call. Confirm before it, not after.
 Get the template id from `list_gen_templates`. No linked Sign template is required.
 
-This path places fields from the docgen template's own role definitions, so it only suits a
-template that has them. Check `get_gen_template` first: if `roles` is empty, the agreement
-would go out with nothing for anyone to sign. Use the staged path instead — `create_agreement`,
-`add_annotations`, `send_agreement` — which lets fields be placed and checked first.
+Read `get_gen_template` to check role names and field bindings. Bind each recipient's
+`roleName` to the intended template slot; slot position and signing order are separate.
+Preserve the template's routing: roles can share an order for parallel signing, and an
+imported template can carry its own order. Do not assume recipient array order defines
+the signing sequence or that every template sends sequentially. Confirm the resulting
+order with the recipients and document.
 
-Preview the merge with `preview_gen_template { id, data }` when the data is unfamiliar
-(note: `id` here, `templateId` on `generate_gen_document`). It needs the `docgen:preview`
-scope, which `docgen:read`/`write`/`admin` do not imply.
+Every `SIGNER` needs a bound template field. `TEMPLATE_HAS_NO_SIGNER_FIELDS` stops the
+send when one is missing; field-placement failure also stops it. Report the failure and
+correct the field set before trying again. For a template without fields, generate the
+PDF and use the staged draft, upload, field-placement and send path above.
 
-The linked Sign template only exists on templates brought in with
-`import_gen_template_from_source`. A template built with `build-gen-template` has no link:
-generate it with `generate-document`, then send the result through the staged path above.
+Native templates with signer fields can use this call without a linked Sign template.
+For HTML previews, use `preview_gen_template { id, data, output: "html" }` with
+`docgen:write`. DOCX/URL preview requires reserved `docgen:preview`; use
+`generate-document` to generate and retrieve a PDF for review instead.
 
 ## Create-and-send in one call
 

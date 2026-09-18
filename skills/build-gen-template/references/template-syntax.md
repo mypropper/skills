@@ -64,5 +64,7 @@ especially inside signature blocks and table cells.
 | Word | `previewUrl` (short-lived, presigned) plus `expiresAt`. Fetch before it expires; preview again for a fresh URL |
 | HTML / Markdown | Sanitized `html` plus a `csp` object for safe display in an iframe |
 
-Both carry `diagnostics[]`. Preview stores nothing and consumes no generation quota, and
-needs the standalone `docgen:preview` scope.
+Both carry `diagnostics[]`. HTML preview with `output: "html"` uses `docgen:write` and
+creates no generated-document record or quota charge. Word and URL previews require
+platform-reserved `docgen:preview`, unavailable to MCP clients. Generate and retrieve a
+PDF for review instead; that path creates a document and consumes generation quota.

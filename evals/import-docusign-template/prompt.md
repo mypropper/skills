@@ -44,6 +44,15 @@ actually carry over and what would we have to rebuild?
                 { "text": "Both", "value": "both" }
               ] }
           ],
+          "noteTabs": [
+            { "documentId": "1", "pageNumber": "1", "tabLabel": "ReviewInstructions", "value": "Keep a copy for your records.", "xPosition": "72", "yPosition": "120" }
+          ],
+          "emailTabs": [
+            { "documentId": "1", "pageNumber": "1", "tabLabel": "ContactEmail", "xPosition": "90", "yPosition": "390" }
+          ],
+          "drawTabs": [
+            { "documentId": "1", "pageNumber": "2", "tabLabel": "SiteSketch", "xPosition": "72", "yPosition": "450", "width": "200", "height": "100" }
+          ],
           "approveTabs": [
             { "documentId": "1", "pageNumber": "4", "recipientId": "1", "tabLabel": "VendorApprove", "xPosition": "420", "yPosition": "700" }
           ],
@@ -72,3 +81,7 @@ actually carry over and what would we have to rebuild?
   }
 }
 ```
+
+For later import verification, explain how to use structured issues and legacy warnings
+without double-counting messages, and whether export_template can verify a draw field and
+the signer role names. Do not perform an import or send.
