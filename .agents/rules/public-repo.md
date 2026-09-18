@@ -20,7 +20,7 @@ deliver, not as the problem that prompted them.
 | "`add_annotations` replaces the whole field set, so place every field before sending." | "`add_annotations` isn't guarded after send and wipes live fields." |
 | "Verify an import with `get_template`, which returns the full field set." | "`export_template` is lossy and drops 9 of 18 fields." |
 | "`role` accepts these values." | "The docs were wrong; `role` is really an enum." |
-| "Request `docgen:preview` for flows that preview a template." | "Preview 403s even with `docgen:admin`." |
+| "Use `docgen:write` for HTML template previews." | "Preview 403s even with `docgen:admin`." |
 | "clarify recipient roles and field placement" | "fix broken role docs" |
 
 Both columns carry the same instruction. Only the second one reads as a defect report.
