@@ -43,8 +43,8 @@ Document-based, when the file is on disk:
 
 ```
 create_agreement { name, type }
-upload_document  { agreementId, document: <base64>, filename, mimeType }
-add_recipient    { id, name, email, role, order }   // per signer
+manage_documents { action: "add", agreementId, document: <base64>, filename, mimeType }
+manage_recipients { action: "add", agreementId, name, email, role, order }   // per signer
 ```
 
 `mimeType` is `application/pdf` or
@@ -58,8 +58,12 @@ create_agreement { name, templateId, templateRoles: [{ roleName, name, email }],
 
 `roleName` must match a role on the template. Read them with `get_template`.
 
+To create and send from that template in one call, use `create_agreement_from_template`.
+`sendImmediately` defaults to true, so confirm the template and recipients before calling.
+Set `sendImmediately` to false only when the result must stay a draft.
+
 Inline documents on `create_agreement` are capped at 10 documents, 25MB each before
-encoding. Past that, create the draft first and `upload_document` each file.
+encoding. Past that, create the draft first and `manage_documents` `add` each file.
 
 Leave the status at `CREATED`. Do not set `status: "SENT"` at this step.
 
@@ -68,11 +72,11 @@ Leave the status at `CREATED`. Do not set `status: "SENT"` at this step.
 Every signer needs at least one `SIGNATURE` field, or the document comes back unsigned.
 
 Use the `place-signature-fields` skill to read the document and produce the annotations.
-`add_annotations` replaces the whole set, so send every field for every recipient in one
+`set_fields` replaces the whole set, so send every field for every recipient in one
 call:
 
 ```
-add_annotations { id, annotations: [ { recipientId, type, pageIndex, ... } ] }
+set_fields { id, annotations: [ { recipientId, type, pageIndex, ... } ] }
 ```
 
 Assign no signature field to a `CARBON_COPY` recipient.
@@ -88,7 +92,7 @@ people now. Wait for an explicit yes.
 `send_agreement { id }`. Status moves `CREATED` → `SENT` and every recipient is emailed.
 
 Report the agreement id, the recipients emailed and the order. Tell the user that
-`get_agreement_status` shows per-recipient progress, and that a sent agreement can only be
+`get_agreement` shows per-recipient `status` and `signedAt`, and that a sent agreement can only be
 stopped with `void_agreement`, which emails everyone again.
 
 ## Generate and send in one call
@@ -119,7 +123,7 @@ correct the field set before trying again. For a template without fields, genera
 PDF and use the staged draft, upload, field-placement and send path above.
 
 Native templates with signer fields can use this call without a linked Sign template.
-For HTML previews, use `preview_gen_template { id, data, output: "html" }` with
+For HTML previews, use `manage_gen_template` with `action` `preview` and `{ id, data, output: "html" }` with
 `docgen:write`. DOCX/URL preview requires reserved `docgen:preview`; use
 `generate-document` to generate and retrieve a PDF for review instead.
 
@@ -132,10 +136,10 @@ the user has confirmed.
 
 ## Failure handling
 
-- `send_agreement` rejected — the draft has no recipient or no document. `list_recipients`
-  and `list_documents`, fix, re-confirm, resend.
-- A state error on upload — the agreement is already sent. Check `get_agreement_status`.
-- Fields wrong after sending — `add_annotations` replaces the whole set and belongs to the
+- `send_agreement` rejected — the draft has no recipient or no document. Read `get_agreement`,
+  fix, re-confirm, resend.
+- A state error on upload — the agreement is already sent. Check `get_agreement`.
+- Fields wrong after sending — `set_fields` replaces the whole set and belongs to the
   draft stage, so void the agreement with a reason and build a fresh draft instead.
 - Wrong recipient discovered after sending — `void_agreement` with a reason, then build a
   fresh draft. Both steps email people. Confirm both.

@@ -42,7 +42,7 @@ the most common cause of a document coming back unsigned.
 
 ### 3. Map blocks to recipients
 
-Each block belongs to exactly one `recipientId`. Get the ids from `list_recipients`.
+Each block belongs to exactly one `recipientId`. Get the ids from `get_agreement`.
 
 Match on the party name printed above the block, not on document order. When a block is
 unlabelled, ask rather than assume.
@@ -109,10 +109,10 @@ signature boxes around 32–38pt tall rather than the full 44 when the block's l
 ### 5. Apply
 
 ```
-add_annotations { id, annotations: [ ... ] }
+set_fields { id, annotations: [ ... ] }
 ```
 
-`add_annotations` **replaces** every annotation on the agreement. Send the complete set
+`set_fields` **replaces** every field on the agreement. Send the complete set
 for every recipient in one call, and keep that list — no tool reads annotations back, so
 an incomplete resend cannot be reconstructed.
 

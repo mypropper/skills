@@ -39,7 +39,7 @@ matching Sign template with its role slots and field placements.
 | Key | What it is |
 |---|---|
 | `genTemplate` | A ready `create_gen_template` payload. Pass it through unchanged |
-| `signTemplate` | A ready `create_sign_template` payload in empty mode — `name` only, plus description and signing order |
+| `signTemplate` | A ready `manage_templates` `create` payload in empty mode — `name` only, plus description and signing order |
 | `roles` | The role slots to attach once the Sign template has a document. Role names bind to `templateRoles[].roleName` at send time |
 | `signatureAnchors` | Intended field placements per role. See the caveat below |
 
@@ -87,7 +87,7 @@ Install one at a time. Report each result. On a failure, report it with its
 
 ### 5. Preview
 
-`preview_gen_template { id, data, output: "html" }` uses `docgen:write` for these HTML
+`manage_gen_template` with `action` `preview` and `{ id, data, output: "html" }` uses `docgen:write` for these HTML
 templates. Use `id` for preview and `templateId` for `generate_gen_document`. Read the
 preview diagnostics and review the merged wording before relying on an installed template.
 
@@ -102,7 +102,7 @@ mismatch. To preview meaningfully, merge `defaultData` with real values for ever
 
 The docgen template from step 4 is the installed, reusable artefact, and it is everything
 the pack needs to produce and send agreements. Documents, role slots and fields attach to a
-Sign template at creation time, through the fully-populated mode of `create_sign_template`
+Sign template at creation time, through the fully-populated `create` action of `manage_templates`
 (`documents` plus `recipients` plus `fields`, with base64 bytes the user supplies). Use that
 mode when the user brings their own fixed PDF.
 
@@ -153,7 +153,7 @@ sendable for signature. Do not gate the work on signing up.
 ## Customising
 
 Users should adapt these to their own terms. Edit `templateContent`, keep `dataSchema` in
-step with the merge fields actually used, and re-run `preview_gen_template`. Use
+step with the merge fields actually used, and re-run `manage_gen_template` `preview`. Use
 `clone_gen_template` to branch an installed template rather than editing a shared one in
 place.
 

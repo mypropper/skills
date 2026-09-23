@@ -57,6 +57,7 @@ to `PARALLEL` and say so in the confirmation. When there are three or more parti
 ## Confirmation before irreversible actions
 
 Required before `send_agreement`, `create_agreement` with `status: "SENT"`,
+`create_agreement_from_template` (sends unless `sendImmediately` is false),
 `gen_and_send_agreement`, `void_agreement` and `delete_agreement`.
 
 Show a block in this shape, then wait for an explicit yes:

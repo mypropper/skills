@@ -81,7 +81,7 @@ Do not overwrite without asking.
 Signature templates:
 
 ```
-import_template { template: <the DocuSign JSON object>, format: "docusign", overwriteExisting: false }
+manage_templates { action: "import", template: <the DocuSign JSON object>, format: "docusign", overwriteExisting: false }
 ```
 
 `format` also accepts `"propper"` for a Propper export and `"auto"` to detect. Pass
@@ -91,7 +91,7 @@ outcome than a rejected call.
 DocuSign Gen templates:
 
 ```
-import_gen_template_from_source { sourceSystem: "DOCUSIGN_GEN", templateJson: <the export> }
+manage_gen_template { action: "import_from_source", sourceSystem: "DOCUSIGN_GEN", templateJson: <the export> }
 ```
 
 The Gen export embeds its source document at `documents[0].documentBase64`, so there is no
@@ -108,7 +108,7 @@ Import one template per call. On a failure, report which template failed with it
 `list_templates` and `get_template` on each import. Compare against the audit: role names
 present, field counts matching, routing order preserved. Report any drift per template.
 
-Use `get_template` to inspect the saved fields and `export_template` for a portable
+Use `get_template` to inspect the saved fields and `manage_templates` `export` for a portable
 round-trip check of field types, role aliases and routing. Exports cover all 16 Propper
 field types. Compare against the source format rather than assuming byte-identical JSON;
 see [references/docusign-mapping.md](references/docusign-mapping.md).

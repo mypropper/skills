@@ -26,7 +26,7 @@ of common agreements, use `agreement-starter-pack`.
 |---|---|---|
 | HTML, Markdown or MDX text | `HTML_MDX` | The default when omitted. Styling via `cssStyles`, `headerTemplate`, `footerTemplate` |
 | A Word `.docx` file | `DOCX_HANDLEBARS` | `templateContent` is the file bytes base64-encoded, 25MB before encoding |
-| A DocuSign Gen export | — | Not created here. Use `import_gen_template_from_source` |
+| A DocuSign Gen export | — | Not created here. Use `manage_gen_template` with `action` `import_from_source` |
 
 `DOCX_HANDLEBARS` needs the DOCX upload capability on the account. Without it the call
 returns `422 GENERATION_KIND_NOT_SUPPORTED_HERE`. Say that plainly rather than retrying.
@@ -96,7 +96,7 @@ generation time. Declare the schema.
 
 ### 8. Preview it before anyone relies on it
 
-`preview_gen_template { id, data, output: "html" }` with representative data, and read `diagnostics[]`.
+`manage_gen_template` with `action` `preview` and `{ id, data, output: "html" }` with representative data, and read `diagnostics[]`.
 Preview three payloads, not one:
 
 1. A realistic complete row.
@@ -124,7 +124,7 @@ for a difference that should have been a field.
 
 ## Coming from DocuSign
 
-A DocuSign Gen export imports with `import_gen_template_from_source`, which is idempotent
+A DocuSign Gen export imports with `manage_gen_template` `import_from_source`, which is idempotent
 on the source template id — re-importing updates in place rather than duplicating. Use
 `migrate-from-docusign` to audit the export first.
 
