@@ -34,9 +34,9 @@ Never present an agreement name or id that did not come back from a tool call.
 
 ### 3. Read the per-recipient detail
 
-`get_agreement_status { id }` returns progress per recipient. That is what answers "who
-has not signed" — the agreement-level status only says the agreement is unfinished, not
-who is holding it.
+`get_agreement { id }` includes each recipient's `status` and `signedAt`. That is what
+answers "who has not signed". It does not include `alias`, `deliveryChannel`, `mfaType`,
+`declinedAt`, or `declineReason`.
 
 ### 4. Diagnose the stall
 
@@ -99,12 +99,13 @@ cancel anything already sent.
 
 ## Retrieving a completed copy
 
-`list_documents { agreementId }` for the document ids, then `get_document_url {
-agreementId, documentId }` for each. The URL is presigned and short-lived — hand it to
-the user promptly rather than storing it, and re-issue it if they come back later.
+`get_agreement { id }` lists the documents. Then `manage_documents` with `action`
+`get_download_url` and `{ agreementId, documentId }` for each. The URL is presigned and
+short-lived — hand it to the user promptly rather than storing it, and re-issue it if they
+come back later. `get_download_url` needs only `sign:read`.
 
-The signing audit certificate is produced by Propper but has no MCP tool. Point the user
-at the app or the API for it rather than implying you can fetch it.
+`get_audit_trail { agreementId }` returns the JSON audit record. The audit PDF stays on
+the REST API.
 
 ## Failure handling
 

@@ -38,21 +38,22 @@ Never retry a failed `get_current_user` more than once. Two failures means repor
 
 | Goal | Tools |
 |---|---|
-| Identity, org, entitlements | `get_current_user`, `organization_get_profile`, `organization_list_members`, `organization_get_entitlements` (needs `view: "salesforce"`) |
-| Manage members | `organization_get_member_capabilities`, `organization_get_member_settings`, `organization_update_member_settings`, `organization_update_member_role`, `organization_invite_member`, `organization_cancel_invitation`, `organization_remove_member` |
-| Find an agreement | `list_agreements`, `get_agreement`, `get_agreement_status` |
-| Build a draft | `create_agreement`, `upload_document`, `add_recipient`, `add_annotations` |
-| Edit a draft | `update_agreement`, `update_recipient`, `remove_recipient`, `remove_document`, `list_documents`, `list_recipients` |
-| Send | `send_agreement`, or `create_agreement` with `status: "SENT"` |
+| Identity and organization | `get_current_user`, `get_organization`, `list_members` |
+| Manage members | `manage_members` with `action` `invite`, `update_role`, `remove`, or `cancel_invitation` |
+| Find an agreement | `list_agreements`, `get_agreement` (status, documents, and recipients are on this payload) |
+| Build a draft | `create_agreement`, `manage_documents` `add`, `manage_recipients` `add`, `set_fields` |
+| Edit a draft | `update_agreement`, `manage_recipients` `update` or `remove`, `manage_documents` `remove` |
+| Send | `send_agreement`, `create_agreement` with `status: "SENT"`, or `create_agreement_from_template` |
 | Stop an agreement | `delete_agreement` (draft only), `void_agreement` (already sent) |
-| Retrieve a file | `get_document_url` |
-| Sign templates | `list_templates`, `get_template`, `create_sign_template`, `import_template`, `export_template` |
-| Document generation | `list_gen_templates`, `get_gen_template`, `create_gen_template`, `update_gen_template`, `clone_gen_template`, `preview_gen_template`, `generate_gen_document`, `list_gen_documents`, `get_gen_document` |
+| Retrieve a file | `manage_documents` `get_download_url` |
+| Audit | `get_audit_trail` (JSON). The audit PDF stays on REST |
+| Sign templates | `list_templates`, `get_template`, `manage_templates` with `action` `create`, `import`, or `export` |
+| Document generation | `list_gen_templates`, `get_gen_template`, `manage_gen_template` (`create`, `update`, `clone`, `import_from_source`, `preview`), `generate_gen_document`, `list_gen_documents`, `get_gen_document` |
 | Generate and send in one call | `gen_and_send_agreement` |
-| Import from DocuSign | `import_template`, `import_gen_template_from_source` |
-| Generated-document delivery | `list_gen_delivery_configs`, `list_gen_template_delivery_configs`, `create_gen_delivery_config`, `update_gen_delivery_config`, `delete_gen_delivery_config`, `list_gen_delivery_logs` |
-| Document repository and risk | `locker_list_documents`, `locker_search_documents`, `locker_get_document`, `locker_create_document`, `locker_update_document`, `locker_delete_document`, `locker_upload_document`, `locker_extract_risks`, `locker_list_risks`, `locker_get_risk`, `locker_get_risk_stats`, `locker_update_risk`, `locker_delete_risk`, `locker_get_settings`, `locker_update_settings`, `locker_get_usage` |
+| Document repository and risk | `locker_list_documents`, `locker_search_documents`, `locker_get_document`, `locker_manage_document` (`upload`, `register`, `update`, `delete`), `locker_extract_risks`, `locker_list_risks`, `locker_get_risk`, `locker_update_risk` |
 | Ask a question of a document | `ask_doc_question` — scope the question below |
+
+Not on this MCP server: organization entitlements, member capabilities, member preferences, docgen delivery configuration, Locker risk deletion, risk stats, settings, and usage. Recipient `alias`, `deliveryChannel`, `mfaType`, `declinedAt`, and `declineReason` are not on `get_agreement`.
 
 Use only these names. If the task needs something not on this list, say so rather than
 guessing at a tool.
@@ -79,7 +80,7 @@ the host applies.
 
 `create_agreement` has three modes. Pick one and do not mix them.
 
-**Document-based** — `name`, optional `recipients`, then `upload_document` for each file.
+**Document-based** — `name`, optional `recipients`, then `manage_documents` with `action` `add` for each file.
 Use when the document is on disk or must be assembled first.
 
 **Template-based** — `templateId` plus `templateRoles[]`, each entry
@@ -99,7 +100,7 @@ This emails recipients immediately. Confirm before using it.
 Treat `CREATED` as the only status in which you add documents or annotations, or delete.
 Once an agreement is `SENT` it can be voided, but not deleted.
 
-`add_annotations` replaces the whole field set rather than merging into it, so it belongs
+`set_fields` replaces the whole field set rather than merging into it, so it belongs
 to the draft stage only. Place every field before `send_agreement`, and send the complete
 set for every recipient in one call. To change fields on an agreement that has already gone
 out, `void_agreement` and build a fresh draft — that is the supported correction path.
@@ -108,10 +109,11 @@ Full table in [references/status-model.md](references/status-model.md).
 
 ## Confirm before anything irreversible
 
-`send_agreement`, `create_agreement` with `status: "SENT"`, `gen_and_send_agreement`,
-`void_agreement` and `delete_agreement` either email real people or destroy data.
+`send_agreement`, `create_agreement` with `status: "SENT"`, `create_agreement_from_template`
+(it sends unless `sendImmediately` is false), `gen_and_send_agreement`, `void_agreement`
+and `delete_agreement` either email real people or destroy data.
 
-`add_annotations` emails nobody, so it is not on that list — but because it replaces the
+`set_fields` emails nobody, so it is not on that list — but because it replaces the
 whole field set rather than merging, treat any call that rewrites an existing set as
 irreversible and confirm it the same way.
 

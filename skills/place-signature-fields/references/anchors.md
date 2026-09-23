@@ -2,7 +2,7 @@
 
 ## Field object
 
-Every entry in the `add_annotations` array. `type` and `pageIndex` are required, plus
+Every entry in the `set_fields` `annotations` array. `type` and `pageIndex` are required, plus
 either `rect` or `anchorString`.
 
 | Field | Type | Notes |
@@ -53,9 +53,9 @@ Prefer `AUTO_FILL_DATE` over `DATE` for the date a document was executed: it can
 back-dated by the signer.
 
 Types are uppercase when you *write* an annotation. Template reads (`get_template`,
-`export_template`) return the same types lowercased (`signature`, `auto_fill_date`), and
+`manage_templates` `export`) return the same types lowercased (`signature`, `auto_fill_date`), and
 use a 1-based `pageNumber` rather than the 0-based `pageIndex` you send. Do not copy a
-template read straight back into `add_annotations`.
+template read straight back into `set_fields`.
 
 ## Anchors versus coordinates
 
@@ -114,7 +114,7 @@ two matches, and the second one belongs to the other recipient.
 ## Limits
 
 - 100 tabs per recipient.
-- `add_annotations` replaces the entire set and belongs to the `CREATED` stage. Check the
+- `set_fields` replaces the entire set and belongs to the `CREATED` stage. Check the
   agreement's status before every call.
 - There is no occurrence selector on an anchor. To give two parties fields at their own
   `By:` lines, use coordinates, or pick anchors unique to each party (the party name above

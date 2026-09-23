@@ -70,7 +70,7 @@ codes.
 ### 4. Preview before you generate
 
 ```
-preview_gen_template { id, data, output: "html" }
+manage_gen_template { action: "preview", id, data, output: "html" }
 ```
 
 Preview renders the template without creating a document. It stores nothing and consumes

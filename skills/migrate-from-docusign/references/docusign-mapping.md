@@ -54,7 +54,7 @@
 | Label | `tabLabel` | `label`, max 100 chars |
 | Recipient binding | `recipientId` string within the envelope | `recipientId` uuid, re-bound on import |
 
-DocuSign serialises booleans and numbers as strings. `import_template` converts them.
+DocuSign serialises booleans and numbers as strings. `manage_templates` `import` converts them.
 When constructing annotations by hand, use real numbers and real booleans.
 
 Field **types** are uppercase when written as annotations (`SIGNATURE`) and lowercase when
@@ -89,7 +89,7 @@ Report each of these by template and tab label, never as a bare count:
 ## Verify the saved template and its export
 
 Use `get_template` to check field type, label, page, geometry and recipient binding.
-`export_template` supports all 16 Propper field types: signature, initial, text, date,
+`manage_templates` `export` supports all 16 Propper field types: signature, initial, text, date,
 number, checkbox, radio, dropdown, attachment, the five auto-fill types, formula and draw.
 Exports preserve role aliases and signing order. DocuSign exports map to the corresponding
 tab collections, including options, radio positions and formulas.
@@ -101,12 +101,12 @@ checkbox remains a checkbox. Review `issues[]` by code and tab label alongside a
 
 ## Gen template exports
 
-`import_gen_template_from_source` takes the DocuSign Gen JSON with the source document
+`manage_gen_template` `import_from_source` takes the DocuSign Gen JSON with the source document
 embedded at `documents[0].documentBase64`. Check that key exists first. The import is
 idempotent on (`sourceSystem`, `sourceTemplateId`), so re-running updates in place.
 
 DocuSign Gen merge placeholders and Propper's `{{fieldName}}` Handlebars syntax are not
-identical. After import, run `preview_gen_template` with representative data and compare
+identical. After import, run `manage_gen_template` `preview` with representative data and compare
 the output against a DocuSign-generated sample before using the template for real.
 
 ## API-level migration
