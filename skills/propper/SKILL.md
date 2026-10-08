@@ -53,6 +53,9 @@ Never retry a failed `get_current_user` more than once. Two failures means repor
 | Document repository and risk | `locker_list_documents`, `locker_search_documents`, `locker_get_document`, `locker_manage_document` (`upload`, `register`, `update`, `delete`), `locker_extract_risks`, `locker_list_risks`, `locker_get_risk`, `locker_update_risk` |
 | Ask a question of a document | `ask_doc_question` — scope the question below |
 
+Click (clickwrap templates, deployments, acceptances and their evidence) is on the REST
+API, not this MCP server. Use `click-acceptance-reports` to report on acceptances.
+
 Not on this MCP server: organization entitlements, member capabilities, member preferences, docgen delivery configuration, Locker risk deletion, risk stats, settings, and usage. Recipient `alias`, `deliveryChannel`, `mfaType`, `declinedAt`, and `declineReason` are not on `get_agreement`.
 
 Use only these names. If the task needs something not on this list, say so rather than

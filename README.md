@@ -6,7 +6,7 @@ Supports **Claude Code**, **Codex**, **Cursor**, **OpenCode**, and [75 more](#ot
 
 Describe what you need signed and by whom. Propper generates the document from a template,
 places the signature fields, routes it to the right people in the right order, and tracks
-it to completion. Thirteen skills cover the whole path from an unsigned draft to a
+it to completion. Fourteen skills cover the whole path from an unsigned draft to a
 completed agreement — and from a template you keep rewriting to signing built into your
 own product.
 
@@ -94,6 +94,7 @@ use those today; connect an account when you want to actually send something.
 | **compare-contract-versions** | Diffs two versions clause by clause — changed amounts and dates, added and removed clauses, renumbering, broken cross-references | `their counsel sent this back — what did they change?` |
 | **extract-contract-dates** | Turns durations into dates: renewal, the notice deadline before it, termination rights, cure periods, milestones | `when does this renew, and when do I have to tell them?` |
 | **agreement-starter-pack** | Installs nine ready agreement templates — NDAs, contractor, consulting, SOW, MSA, offer letter, waiver, release | `set me up with a standard mutual NDA` |
+| **click-acceptance-reports** | Reports who accepted which version of your clickwrap terms, who still has to re-accept after a major update, and whether each receipt's evidence verifies, as an HTML report and a Markdown summary. Read-only, over the Click API with a `click:read` client | `which users haven't accepted EULA 2.0?` |
 | **embed-signing-in-your-app** | Building signing into a product: OAuth, the create-and-send sequence, embedded ceremonies, verified webhooks | `let our customers sign in our app, not by email` |
 | **agreement-workflows** | Shared definitions the other skills build on: recipient roles, confirmation wording, the not-legal-advice boundary | — |
 
@@ -133,7 +134,9 @@ Scopes requested for ordinary agreement work:
 | `locker:read` | Read documents, extracted risks and settings in Locker |
 
 The starter pack and the generation skills additionally need `docgen:read` and
-`docgen:write`. HTML previewing needs `docgen:write`. URL and DOCX previews require `docgen:preview`, which is a platform-reserved scope
+`docgen:write`. `click-acceptance-reports` reads Click over the REST API with an OAuth
+client of your own that holds `click:read`, set as `PROPPER_CLIENT_ID` and
+`PROPPER_CLIENT_SECRET` in your shell. HTML previewing needs `docgen:write`. URL and DOCX previews require `docgen:preview`, which is a platform-reserved scope
 that `docgen:read`, `docgen:write` and `docgen:admin` do **not** imply. Full per-tool
 mapping in
 [skills/propper/references/scopes.md](skills/propper/references/scopes.md).
