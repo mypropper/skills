@@ -26,6 +26,8 @@ jobs:
         run: node scripts/check-repo.mjs
       - name: Template checker tests
         run: node --test scripts/template-checks.test.mjs
+      - name: Click report script tests
+        run: node --test scripts/click-report.test.mjs
 
   manifests:
     name: Plugin manifests and skills

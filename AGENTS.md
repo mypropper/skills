@@ -36,6 +36,7 @@ needed.
 | `skills/track-agreements` | Where an agreement stands after it was sent, and what can be done about it |
 | `skills/compare-contract-versions` | Diffing two versions of an agreement. Needs no Propper account |
 | `skills/extract-contract-dates` | Renewal, notice and termination deadlines as dates. Needs no account for local files |
+| `skills/click-acceptance-reports` | Reporting clickwrap acceptances by version, re-acceptance after a major update, and evidence verification. Read-only REST, not MCP |
 | `skills/embed-signing-in-your-app` | Building signing into a product against the REST API. Calls no Propper tools |
 
 ## Tools
